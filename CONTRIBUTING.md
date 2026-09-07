@@ -1,35 +1,37 @@
-# Contributing to DeskBox
+# Contributing to DeskBox Themes / 参与主题社区
 
-## English
+This guide applies to **zjzonline/DeskBox-Themes**. Upstream DeskBox has its own contribution policy, preserved in [CONTRIBUTING.upstream.md](CONTRIBUTING.upstream.md).
 
-Thank you for your interest in contributing to DeskBox!
+本指南适用于本主题社区。原作者的贡献规则保存在 [CONTRIBUTING.upstream.md](CONTRIBUTING.upstream.md)，我们不会代表原作者承诺合并。
 
-DeskBox is currently developed and maintained primarily by a solo developer. At this stage, the project is still undergoing frequent architectural adjustments, including ongoing work to better separate the core application from future plugin/extensibility capabilities. Some core APIs, feature boundaries, and long-term implementation decisions have not yet been finalized.
+## Submit a theme concept / 提交主题创意
 
-For this reason, **external Pull Requests are temporarily not being accepted for merging**.
+1. Fork this repository and create a branch from `deskbox-themes`.
+2. Add a folder under `themes/<your-theme-id>/` with a README describing the theme, author, status, and asset licenses.
+3. Include original mockups or sanitized application screenshots. Clearly label mockups; remove personal filenames, paths, and account details from screenshots.
+4. Open a pull request targeting this repository's `deskbox-themes` branch.
 
-Accepting PRs responsibly requires more than reviewing whether the code works — it also involves architectural review, compatibility testing, regression testing, long-term maintenance, and continued communication with contributors. At the moment, I do not have enough capacity to provide that level of review consistently.
+主题加载格式尚未稳定，当前接受创意与文档投稿。请在 `themes/<主题标识>/` 提供主题说明、作者、开发状态、素材来源和许可，再向本仓库的 `deskbox-themes` 分支提交 PR。概念图须注明，实机截图请去除个人文件名、路径和账户信息。
 
-This is **not a permanent policy**. Once the core architecture and plugin system become more stable, I plan to revisit external contributions and establish clearer contribution guidelines, API boundaries, and review processes.
+## Required information / 必填信息
 
-In the meantime, community feedback is extremely valuable. Bug reports, feature ideas, UI/UX suggestions, technical discussions, prototypes, and implementation proposals are all very welcome through **Issues** or **Discussions**.
+- Theme name and unique folder ID / 名称与唯一目录标识
+- Author and source links / 作者和来源
+- Concept, prototype, or tested pack status / 创意、原型或已测试主题包
+- Exact host version or commit tested, if applicable / 如已测试，列出宿主版本或提交
+- Windows version, display scaling, and light/dark coverage / 系统、缩放及明暗模式
+- Source and license for every included third-party asset / 第三方素材来源及许可
+- Known limitations / 已知限制
 
-Even if a PR cannot currently be merged, I sincerely appreciate the time and effort people put into exploring and improving DeskBox. Thank you for your understanding and support!
+## Review / 审核
 
----
+Maintainers review submissions before inclusion. Submission does not mean immediate publication. Future installable packs must use the supported data schema, without DLLs, scripts, arbitrary XAML, or remote code. Never submit local application data, credentials, build outputs, or installers as theme assets.
 
-## 中文
+维护者审核后收录。后续可安装主题须遵循宿主支持的数据规范，不包含 DLL、脚本、任意 XAML 或远程代码。不要提交个人应用数据、凭据、构建输出或安装包。
 
-感谢你愿意参与 DeskBox 的开发与改进！
+## Licensing / 许可
 
-DeskBox 目前主要由个人独立开发和维护。现阶段项目仍处于较频繁的架构调整期，包括正在规划**核心本体与未来插件 / 扩展能力的解耦**，部分基础接口、功能边界以及长期实现方式也尚未完全确定。
+Retain upstream notices. Contributions to application code follow the existing repository license. Identify asset licenses explicitly and only submit assets you have permission to redistribute. A submission does not transfer authorship or erase third-party license terms.
 
-因此，**目前暂不接受外部 Pull Request 的代码合并**。
+保留上游署名；应用代码贡献遵循仓库现有许可。素材应明确标注许可，仅提交有权再分发的内容，投稿不会转移作者身份或取消第三方许可条件。
 
-一个 PR 的合并不仅需要确认功能是否可用，还需要进行架构审查、兼容性验证、回归测试，并承担后续长期维护和沟通成本。目前作为个人开发者，我暂时没有足够的时间和精力持续完成足够深入的 Code Review，也不希望在没有能力长期维护的情况下贸然开放 PR。
-
-**这并不是永久性的限制。** 等核心架构、插件体系以及相关接口逐渐稳定后，我会重新评估并开放外部贡献，同时完善贡献规范、接口边界和 Review 流程。
-
-在此之前，非常欢迎通过 **Issue / Discussion** 提交 Bug、功能建议、UI/UX 意见、技术方案、原型或实现思路。
-
-即使现阶段无法直接合并 PR，我也非常感谢每一位愿意花时间研究和改进 DeskBox 的朋友。感谢理解与支持！
