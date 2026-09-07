@@ -2646,5 +2646,7 @@
     "DesktopOrganization.Layout.RetentionHelp.AccessDenied": "Accès refusé. Vérifiez les droits, puis réessayez ; Windows peut demander une autorisation.",
     "DesktopOrganization.Layout.RetentionHelp.Unavailable": "Vérifiez l’accès au fichier ou au lecteur, puis réessayez.",
     "DesktopOrganization.Layout.RetentionHelp.TransferFailed": "Vérifiez la destination et l’espace libre, puis réessayez.",
-    "DesktopOrganization.Layout.RetentionHelp.Canceled": "Annulé ou autorisation refusée. Réessayez pour poursuivre les éléments inachevés."
+    "DesktopOrganization.Layout.RetentionHelp.Canceled": "Annulé ou autorisation refusée. Réessayez pour poursuivre les éléments inachevés.",
+    "Settings.VisualTheme.Title": "Thème visuel",
+    "Settings.VisualTheme.Description": "Choisissez un style de surfaces et d’animations dans un dossier. Les modes clair et sombre restent indépendants."
 }

@@ -744,9 +744,20 @@ public abstract partial class WidgetWindowBase
 
     // ── Tray animation helpers ─────────────────────────────────
 
-    protected WidgetTrayAnimationProfile GetTrayAnimationProfile()
+    protected WidgetTrayAnimationProfile GetTrayAnimationProfile(bool? isShowing = null)
     {
-        return TrayAnimation.CreateProfile(WidgetAnimationSettings.From(SettingsService.Settings));
+        WidgetTrayAnimationProfile profile =
+            TrayAnimation.CreateProfile(WidgetAnimationSettings.From(SettingsService.Settings));
+        ThemePack theme = App.Current.ThemeService.CurrentVisualTheme;
+        if (!profile.IsEnabled || !isShowing.HasValue || theme.Id == ThemePackService.ClassicThemeId)
+        {
+            return profile;
+        }
+
+        int duration = isShowing.Value
+            ? theme.Motion.OpenDurationMilliseconds
+            : theme.Motion.CloseDurationMilliseconds;
+        return profile with { DurationMs = duration };
     }
 
     protected void LogTrayWindow(string message)

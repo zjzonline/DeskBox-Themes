@@ -2646,5 +2646,7 @@
     "DesktopOrganization.Layout.RetentionHelp.AccessDenied": "رُفض الوصول. تحقق من الأذونات ثم أعد المحاولة؛ قد يطلب Windows إذنًا.",
     "DesktopOrganization.Layout.RetentionHelp.Unavailable": "تحقق من إمكانية الوصول إلى الملف أو محرك الأقراص ثم أعد المحاولة.",
     "DesktopOrganization.Layout.RetentionHelp.TransferFailed": "تحقق من الوجهة والمساحة المتاحة ثم أعد المحاولة.",
-    "DesktopOrganization.Layout.RetentionHelp.Canceled": "أُلغي أو لم يُمنح الإذن. أعد المحاولة لمتابعة العناصر غير المكتملة."
+    "DesktopOrganization.Layout.RetentionHelp.Canceled": "أُلغي أو لم يُمنح الإذن. أعد المحاولة لمتابعة العناصر غير المكتملة.",
+    "Settings.VisualTheme.Title": "السمة المرئية",
+    "Settings.VisualTheme.Description": "اختر نمط الأسطح والحركة من مجلد. يبقى الوضع الفاتح أو الداكن مستقلاً."
 }

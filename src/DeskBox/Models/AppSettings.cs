@@ -20,6 +20,12 @@ public class AppSettings
     public string Theme { get; set; } = "System";
 
     /// <summary>
+    /// Data-only visual theme pack identifier. Color mode remains an independent setting.
+    /// Missing or incompatible packs fall back to <c>deskbox.classic</c>.
+    /// </summary>
+    public string VisualThemeId { get; set; } = "deskbox.classic";
+
+    /// <summary>
     /// Tray icon style. Valid values: <c>"System"</c>, <c>"Colorful"</c>, <c>"Black"</c>, <c>"White"</c>.
     /// </summary>
     public string TrayIconStyle { get; set; } = "Colorful";

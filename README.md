@@ -6,14 +6,16 @@ English | [简体中文](README.zh-CN.md)
 
 An open theme community for [DeskBox](https://github.com/Tianyu199509/DeskBox). Explore Smoke Glass and Alpine Mist, share visual ideas, and help build a theme ecosystem for Windows desktops.
 
-> **Early development.** This repository currently contains the upstream application and the community documentation. Our two themes exist as local source prototypes and have not yet been migrated here. External theme loading, downloadable theme packs, and the marketplace website are not available yet.
+> **Early development.** The schema-v1 loader and the first two data-only theme
+> folders are now on the `deskbox-themes` branch. Full widget rendering is still
+> being integrated, so these packs are not a consumer release yet.
 
 ## The first collection
 
 | Theme | Visual direction | Availability |
 | --- | --- | --- |
-| **Smoke Glass · 烟熏玻璃** | Dark translucent surfaces, cyan and violet edges, layered highlights, raised controls | Local source prototype; migration planned |
-| **Alpine Mist · 雾凇** | Pale frosted surfaces, glacier-blue cards, soft shadows, quiet depth | Local source prototype; migration planned |
+| **Smoke Glass · 烟熏玻璃** | Dark translucent surfaces, cyan and violet edges, layered highlights, raised controls | Schema v1 pack; host integration testing |
+| **Alpine Mist · 雾凇** | Pale frosted surfaces, glacier-blue cards, soft shadows, quiet depth | Schema v1 pack; host integration testing |
 
 Browse the [theme directory](themes/README.md) for the collection and contribution requirements. Verified application screenshots will be added after migration; reference artwork is not presented as product screenshots.
 
@@ -35,8 +37,9 @@ The initial collection will be curated through GitHub pull requests. A browsable
 
 - [x] Establish the community repository and bilingual documentation.
 - [ ] Migrate and verify Smoke Glass and Alpine Mist on the current upstream baseline.
-- [ ] Define and implement a versioned data-only theme interface.
-- [ ] Add folder discovery, previews, theme switching, and graceful fallback.
+- [x] Define and implement a versioned data-only theme interface.
+- [x] Add folder discovery, preview metadata, theme switching state, and graceful fallback.
+- [ ] Connect every supported surface and motion token to the shared renderer.
 - [ ] Publish tested theme packs with compatibility information.
 - [ ] Open a browsable community catalog.
 

@@ -29,7 +29,10 @@
         Background="Transparent"
         RenderTransformOrigin="0.5,0.5"
         PointerEntered="ShellRoot_PointerEntered"
-        PointerExited="ShellRoot_PointerExited">
+        PointerExited="ShellRoot_PointerExited"
+        PointerPressed="ShellRoot_ThemePointerPressed"
+        PointerReleased="ShellRoot_ThemePointerReleased"
+        PointerCanceled="ShellRoot_ThemePointerCanceled">
         <Grid.RenderTransform>
             <ScaleTransform x:Name="ShellRootScale" ScaleX="1" ScaleY="1" />
         </Grid.RenderTransform>
@@ -43,6 +46,35 @@
             Grid.RowSpan="2"
             BorderThickness="0"
             CornerRadius="0" />
+
+        <!-- Generic theme layers. Theme packs supply bounded values; DeskBox
+             keeps ownership of rendering and interaction. -->
+        <Border
+            x:Name="ThemeSurfaceWash"
+            Grid.RowSpan="2"
+            IsHitTestVisible="False"
+            Visibility="Collapsed" />
+        <Border
+            x:Name="ThemeDepthEdge"
+            Grid.RowSpan="2"
+            IsHitTestVisible="False"
+            Visibility="Collapsed" />
+        <Border
+            x:Name="ThemeOuterRim"
+            Grid.RowSpan="2"
+            IsHitTestVisible="False"
+            Visibility="Collapsed" />
+        <Border
+            x:Name="ThemeInnerRim"
+            Grid.RowSpan="2"
+            Margin="2"
+            IsHitTestVisible="False"
+            Visibility="Collapsed" />
+        <Border
+            x:Name="ThemeSpecularLayer"
+            Grid.RowSpan="2"
+            IsHitTestVisible="False"
+            Visibility="Collapsed" />
 
         <Grid
             x:Name="TitleBarGrid"

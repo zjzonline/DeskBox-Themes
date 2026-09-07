@@ -1,8 +1,10 @@
 # External themes: proposal / 外部主题提案
 
-Status: design only; no external theme loader has been implemented in this repository.
+Status: schema v1 discovery, validation, preview metadata, switching state, and
+Classic fallback are implemented on `deskbox-themes`. Generic visual rendering
+of every token is the current integration step.
 
-状态：设计提案，本仓库尚未实现外部主题加载器。
+状态：`deskbox-themes` 已实现 schema v1 的发现、校验、预览元数据、切换状态及经典主题回退；当前正在把全部视觉参数接入通用渲染层。
 
 ## Separation
 
@@ -10,20 +12,25 @@ Theme data → validation and API-version checks → shared appearance parameter
 
 主题文件提供参数；宿主负责校验、版本兼容、控件渲染及交互。颜色、渐变、边框、圆角先行，反光层、材质、卡片变体及动效预设逐步开放。
 
-## Proposed folder structure
+## Folder structure
 
 ```text
 User theme directory/
   alpine-mist/
-    manifest.json
     theme.json
-    preview.png
-    assets/
+    preview.svg
 ```
 
-The directory and schema are not final. A user-data location outside the installation directory is preferred. Preserving files during updates is distinct from preserving compatibility: the host must continue supporting the declared theme API version.
+The host loads bundled packs from its `Themes` output folder and user packs from
+`%LOCALAPPDATA%\DeskBox\Themes`. Debug data-root isolation is respected. A pack
+declares `schemaVersion` and `minimumDeskBoxVersion`; incompatible packs are
+reported and skipped.
 
-目录和字段尚未定稿。拟放在安装目录之外的用户数据位置；升级保留文件不等于任意新版都兼容，仍需稳定的主题接口。
+宿主从程序输出目录的 `Themes` 加载内置主题，从 `%LOCALAPPDATA%\DeskBox\Themes` 加载用户主题，并遵循 Debug 数据隔离目录。主题声明 `schemaVersion` 与 `minimumDeskBoxVersion`；不兼容的主题会被报告并跳过。
+
+Schema v1 supports identity, localized names, authorship, license, preview,
+surface colors, edge/specular/shadow colors, geometry, material intent, deep
+surface assignments, and bounded open/close/hover/press motion values.
 
 ## Host responsibilities
 

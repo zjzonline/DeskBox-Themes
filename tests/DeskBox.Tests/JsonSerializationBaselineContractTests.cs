@@ -13,7 +13,7 @@ public sealed class JsonSerializationBaselineContractTests : IDisposable
         Guid.NewGuid().ToString("N"));
 
     [Fact]
-    public void ProductionInventory_IsFrozenAtTwentyEightFilesAndSixtyFourCalls()
+    public void ProductionInventory_IsFrozenAtTwentyNineFilesAndSixtyFiveCalls()
     {
         var expected = new Dictionary<string, int>(StringComparer.Ordinal)
         {
@@ -43,6 +43,7 @@ public sealed class JsonSerializationBaselineContractTests : IDisposable
             ["src/DeskBox/Services/SearchHistoryService.cs"] = 2,
             ["src/DeskBox/Services/SettingsService.cs"] = 2,
             ["src/DeskBox/Services/TodoWidgetStore.cs"] = 2,
+            ["src/DeskBox/Services/ThemePackService.cs"] = 1,
             ["src/DeskBox/Services/WeatherService.cs"] = 5,
             ["src/DeskBox/Services/WidgetFileStackSettings.cs"] = 7
         };
@@ -64,8 +65,8 @@ public sealed class JsonSerializationBaselineContractTests : IDisposable
             Assert.Equal(expectedCount, actual[path]);
         }
 
-        Assert.Equal(28, actual.Count);
-        Assert.Equal(64, actual.Values.Sum());
+        Assert.Equal(29, actual.Count);
+        Assert.Equal(65, actual.Values.Sum());
 
         string[] expectedContextOwners =
         [
@@ -92,6 +93,7 @@ public sealed class JsonSerializationBaselineContractTests : IDisposable
             "src/DeskBox/Services/QuickCaptureStore.cs",
             "src/DeskBox/Services/SearchHistoryService.cs",
             "src/DeskBox/Services/SettingsService.cs",
+            "src/DeskBox/Services/ThemePackService.cs",
             "src/DeskBox/Services/TodoWidgetStore.cs",
             "src/DeskBox/Services/WeatherService.cs",
             "src/DeskBox/Services/WidgetFileStackSettings.cs"
@@ -104,7 +106,7 @@ public sealed class JsonSerializationBaselineContractTests : IDisposable
             .Order()
             .ToArray();
 
-        Assert.Equal(26, actualContextOwners.Length);
+        Assert.Equal(27, actualContextOwners.Length);
         Assert.Equal(expectedContextOwners, actualContextOwners);
     }
 

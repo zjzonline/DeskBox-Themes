@@ -36,8 +36,14 @@ public abstract partial class WidgetWindowBase
         }
 
         bool isDark = RootElement.ActualTheme == ElementTheme.Dark;
-        double surfaceOpacity = Math.Clamp(WidgetOpacity, 0.0, 1.0);
-        string requestedMaterialType = SettingsService.Settings.WidgetMaterialType;
+        ThemePack visualTheme = App.Current.ThemeService.CurrentVisualTheme;
+        bool usesThemeMaterial = visualTheme.Id != ThemePackService.ClassicThemeId;
+        double surfaceOpacity = usesThemeMaterial
+            ? Math.Clamp(visualTheme.Visuals.SurfaceOpacity, 0.0, 1.0)
+            : Math.Clamp(WidgetOpacity, 0.0, 1.0);
+        string requestedMaterialType = usesThemeMaterial
+            ? visualTheme.Visuals.Material
+            : SettingsService.Settings.WidgetMaterialType;
         string materialType = WindowsCompatibilityService.ResolveWidgetMaterialType(
             requestedMaterialType);
         var tintColor = materialType == SettingsService.WidgetMaterialTypeSolid

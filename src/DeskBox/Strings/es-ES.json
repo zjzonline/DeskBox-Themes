@@ -2646,5 +2646,7 @@
     "DesktopOrganization.Layout.RetentionHelp.AccessDenied": "Acceso denegado. Comprueba los permisos y reintenta; Windows puede solicitar autorización.",
     "DesktopOrganization.Layout.RetentionHelp.Unavailable": "Comprueba el acceso al archivo o la unidad y reintenta.",
     "DesktopOrganization.Layout.RetentionHelp.TransferFailed": "Comprueba el destino y el espacio libre y reintenta.",
-    "DesktopOrganization.Layout.RetentionHelp.Canceled": "Cancelado o sin autorización. Reintenta para continuar con los pendientes."
+    "DesktopOrganization.Layout.RetentionHelp.Canceled": "Cancelado o sin autorización. Reintenta para continuar con los pendientes.",
+    "Settings.VisualTheme.Title": "Tema visual",
+    "Settings.VisualTheme.Description": "Elige un estilo de superficies y animaciones basado en carpetas. Los modos claro y oscuro siguen separados."
 }

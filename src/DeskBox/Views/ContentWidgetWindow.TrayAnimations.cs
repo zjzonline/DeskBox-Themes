@@ -29,7 +29,7 @@ public sealed partial class ContentWidgetWindow
         IsHideAnimationRunning = false;
         _isHidePrepared = false;
 
-        var profile = GetTrayAnimationProfile();
+        var profile = GetTrayAnimationProfile(isShowing: true);
         if (!profile.IsEnabled)
         {
             LogTrayWindow($"SharedShow skipped reason=animation-disabled gen={generation}");
@@ -68,7 +68,7 @@ public sealed partial class ContentWidgetWindow
         }
 
         long generation = TrayAnimation.Generation;
-        var profile = GetTrayAnimationProfile();
+        var profile = GetTrayAnimationProfile(isShowing: false);
         if (!profile.IsEnabled)
         {
             LogTrayWindow($"SharedHide skipped reason=animation-disabled gen={generation}");
@@ -107,7 +107,7 @@ public sealed partial class ContentWidgetWindow
         IsHideAnimationRunning = false;
         _isHidePrepared = false;
 
-        var profile = GetTrayAnimationProfile();
+        var profile = GetTrayAnimationProfile(isShowing: true);
         if (!profile.IsEnabled)
         {
             LogTrayWindow($"PlayShow skipped reason=animation-disabled gen={generation}");
@@ -149,7 +149,7 @@ public sealed partial class ContentWidgetWindow
     private void PlayTrayHideAnimation(Action completed)
     {
         long generation = TrayAnimation.Generation;
-        var profile = GetTrayAnimationProfile();
+        var profile = GetTrayAnimationProfile(isShowing: false);
         if (!profile.IsEnabled)
         {
             LogTrayWindow($"PlayHide skipped reason=animation-disabled gen={generation}");

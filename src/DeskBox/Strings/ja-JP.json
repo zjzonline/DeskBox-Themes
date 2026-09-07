@@ -2646,5 +2646,7 @@
     "DesktopOrganization.Layout.RetentionHelp.AccessDenied": "アクセス権を確認して再試行してください。Windows が許可を求める場合があります。",
     "DesktopOrganization.Layout.RetentionHelp.Unavailable": "ファイルやドライブへのアクセスを確認して再試行してください。",
     "DesktopOrganization.Layout.RetentionHelp.TransferFailed": "移動先と空き容量を確認して再試行してください。",
-    "DesktopOrganization.Layout.RetentionHelp.Canceled": "キャンセルされたか、許可されませんでした。再試行で未完了の項目を続行できます。"
+    "DesktopOrganization.Layout.RetentionHelp.Canceled": "キャンセルされたか、許可されませんでした。再試行で未完了の項目を続行できます。",
+    "Settings.VisualTheme.Title": "ビジュアルテーマ",
+    "Settings.VisualTheme.Description": "フォルダー形式のサーフェスとモーションを選びます。ライト／ダークモードは個別に設定できます。"
 }

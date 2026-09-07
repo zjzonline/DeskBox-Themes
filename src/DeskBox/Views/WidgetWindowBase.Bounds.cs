@@ -23,6 +23,10 @@ namespace DeskBox.Views;
 public abstract partial class WidgetWindowBase
 {
     private bool _desktopPinnedInputActivationInProgress;
+    private bool _hasCustomWindowRegion;
+    private int _customWindowRegionWidth;
+    private int _customWindowRegionHeight;
+    private int _customWindowRegionRadius;
 
     protected void ConfigureWindowCore()
     {
@@ -477,6 +481,8 @@ public abstract partial class WidgetWindowBase
             IsApplyingBounds = false;
         }
 
+        RefreshVisualThemeWindowRegion();
+
         if (persist)
         {
             CapturePositionAnchor(x, y, width, height);
@@ -626,6 +632,25 @@ public abstract partial class WidgetWindowBase
 
     protected void ApplyWindowCornerPreference()
     {
+        ThemePack visualTheme = App.Current.ThemeService.CurrentVisualTheme;
+        if (visualTheme.Id != ThemePackService.ClassicThemeId)
+        {
+            if (!WindowsCompatibilityService.SupportsNativeWindowCorners)
+            {
+                ApplyCustomWindowRegion(visualTheme.Visuals.CornerRadius);
+                return;
+            }
+
+            ClearCustomWindowRegion();
+            int themedCornerPreference = Win32Helper.DWMWCP_ROUND;
+            Win32Helper.TrySetDwmWindowAttribute(
+                HWnd,
+                Win32Helper.DWMWA_WINDOW_CORNER_PREFERENCE,
+                ref themedCornerPreference);
+            return;
+        }
+
+        ClearCustomWindowRegion();
         string effectivePreference = WindowsCompatibilityService.ResolveEffectiveWidgetCornerPreference(
             SettingsService.Settings.WidgetCornerPreference);
         int cornerPreference = effectivePreference switch
@@ -648,6 +673,12 @@ public abstract partial class WidgetWindowBase
 
     protected double GetCornerRadiusFromPreference()
     {
+        ThemePack visualTheme = App.Current.ThemeService.CurrentVisualTheme;
+        if (visualTheme.Id != ThemePackService.ClassicThemeId)
+        {
+            return visualTheme.Visuals.CornerRadius;
+        }
+
         string effectivePreference = WindowsCompatibilityService.ResolveEffectiveWidgetCornerPreference(
             SettingsService.Settings.WidgetCornerPreference);
         return WidgetCompactBoundsCalculator.ResolveOuterCornerRadius(
@@ -662,10 +693,98 @@ public abstract partial class WidgetWindowBase
         }
 
         return IsWidgetCollapsedBoundsActive
-            ? WidgetCompactBoundsCalculator.ResolveOuterCornerRadius(
-                WindowsCompatibilityService.ResolveEffectiveWidgetCornerPreference(
-                    SettingsService.Settings.WidgetCornerPreference))
+            ? GetCompactCornerRadii().Outer
             : GetCornerRadiusFromPreference();
+    }
+
+    protected (double Outer, double Inner, double Media) GetCompactCornerRadii()
+    {
+        ThemePack visualTheme = App.Current.ThemeService.CurrentVisualTheme;
+        if (visualTheme.Id != ThemePackService.ClassicThemeId)
+        {
+            double outer = Math.Min(
+                Math.Max(0, visualTheme.Visuals.CornerRadius),
+                WidgetCompactBoundsCalculator.Height / 2);
+            return (outer, Math.Max(0, outer - 2), Math.Max(0, outer - 4));
+        }
+
+        string preference = WindowsCompatibilityService.ResolveEffectiveWidgetCornerPreference(
+            SettingsService.Settings.WidgetCornerPreference);
+        string mediaCornerMode = WindowsCompatibilityService.ResolveEffectiveWidgetCompactMediaCornerMode(
+            SettingsService.Settings.WidgetCompactMediaCornerMode);
+        return (
+            WidgetCompactBoundsCalculator.ResolveOuterCornerRadius(preference),
+            WidgetCompactBoundsCalculator.ResolveInnerCornerRadius(preference),
+            WidgetCompactBoundsCalculator.ResolveMediaCornerRadius(mediaCornerMode, preference));
+    }
+
+    private void RefreshVisualThemeWindowRegion()
+    {
+        if (WindowsCompatibilityService.SupportsNativeWindowCorners)
+        {
+            return;
+        }
+
+        ThemePack visualTheme = App.Current.ThemeService.CurrentVisualTheme;
+        if (visualTheme.Id == ThemePackService.ClassicThemeId)
+        {
+            ClearCustomWindowRegion();
+            return;
+        }
+
+        ApplyCustomWindowRegion(visualTheme.Visuals.CornerRadius);
+    }
+
+    private void ApplyCustomWindowRegion(double logicalRadius)
+    {
+        SizeInt32 size = AppWindow.Size;
+        double scale = Win32Helper.GetDpiScaleForWindow(HWnd, RootElement.XamlRoot);
+        int radius = Math.Max(1, (int)Math.Round(logicalRadius * scale));
+        if (_hasCustomWindowRegion &&
+            _customWindowRegionWidth == size.Width &&
+            _customWindowRegionHeight == size.Height &&
+            _customWindowRegionRadius == radius)
+        {
+            return;
+        }
+
+        IntPtr region = Win32Helper.CreateRoundRectRgn(
+            0,
+            0,
+            Math.Max(1, size.Width) + 1,
+            Math.Max(1, size.Height) + 1,
+            radius * 2,
+            radius * 2);
+        if (region == IntPtr.Zero)
+        {
+            return;
+        }
+
+        if (Win32Helper.SetWindowRgn(HWnd, region, redraw: true) == 0)
+        {
+            Win32Helper.DeleteObject(region);
+            return;
+        }
+
+        // The system owns a successfully assigned region handle.
+        _hasCustomWindowRegion = true;
+        _customWindowRegionWidth = size.Width;
+        _customWindowRegionHeight = size.Height;
+        _customWindowRegionRadius = radius;
+    }
+
+    private void ClearCustomWindowRegion()
+    {
+        if (!_hasCustomWindowRegion)
+        {
+            return;
+        }
+
+        Win32Helper.SetWindowRgn(HWnd, IntPtr.Zero, redraw: true);
+        _hasCustomWindowRegion = false;
+        _customWindowRegionWidth = 0;
+        _customWindowRegionHeight = 0;
+        _customWindowRegionRadius = 0;
     }
 
     // ── Backdrop preference ────────────────────────────────────

@@ -75,6 +75,7 @@ public partial class SettingsViewModel : ObservableObject, IDisposable
     private long? _updateTotalBytes;
     private Color _currentAccentColor;
     private string _selectedTheme = ThemeSystem;
+    private string _selectedVisualTheme = ThemePackService.ClassicThemeId;
     private string _selectedTrayIconStyle = TrayIconStyleSystem;
     private string _selectedLanguage = SettingsService.LanguageSystem;
     private string _selectedWidgetCornerPreference = CornerRound;
@@ -291,6 +292,7 @@ private string[]? _cachedWeatherRefreshIntervalDisplayNames;
 
         var settings = settingsService.Settings;
         _selectedTheme = settings.Theme is ThemeLight or ThemeDark ? settings.Theme : ThemeSystem;
+        _selectedVisualTheme = _themeService.ResolveVisualTheme(settings.VisualThemeId).Id;
         _selectedTrayIconStyle = settings.TrayIconStyle is TrayIconStyleColorful or TrayIconStyleBlack or TrayIconStyleWhite
             ? settings.TrayIconStyle
             : TrayIconStyleSystem;

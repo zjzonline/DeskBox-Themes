@@ -536,7 +536,7 @@ public void PrepareTrayShowAnimation()
             _trayAnimation.StopAndRestoreWindowPosition();
             _trayAnimation.CloakWindowForTrayShow();
             _isHideAnimationRunning = false;
-            var profile = GetTrayAnimationProfile();
+            var profile = GetTrayAnimationProfile(isShowing: true);
             LogTrayWindow(
                 $"PrepareShow gen={_trayAnimation.Generation} effect={_settingsService.Settings.WidgetAnimationEffect} " +
                 $"speed={_settingsService.Settings.WidgetAnimationSpeed} enabled={profile.IsEnabled} durationMs={profile.DurationMs}");
@@ -953,7 +953,7 @@ _isHideAnimationRunning = true;
         _trayAnimation.Stop();
         _isHideAnimationRunning = false;
 
-        var profile = GetTrayAnimationProfile();
+        var profile = GetTrayAnimationProfile(isShowing: true);
         if (!profile.IsEnabled)
         {
             LogTrayWindow($"SharedShow skipped reason=animation-disabled gen={generation}");
@@ -992,7 +992,7 @@ _isHideAnimationRunning = true;
         }
 
         long generation = _trayAnimation.Generation;
-        var profile = GetTrayAnimationProfile();
+        var profile = GetTrayAnimationProfile(isShowing: false);
         if (!profile.IsEnabled)
         {
             LogTrayWindow($"SharedHide skipped reason=animation-disabled gen={generation}");
@@ -1030,7 +1030,7 @@ _isHideAnimationRunning = true;
         _trayAnimation.Stop();
         _isHideAnimationRunning = false;
 
-        var profile = GetTrayAnimationProfile();
+        var profile = GetTrayAnimationProfile(isShowing: true);
         if (!profile.IsEnabled)
         {
             LogTrayWindow($"PlayShow skipped reason=animation-disabled gen={generation}");
@@ -1072,7 +1072,7 @@ _isHideAnimationRunning = true;
     private void PlayTrayHideAnimation(Action completed)
     {
         long generation = _trayAnimation.Generation;
-        var profile = GetTrayAnimationProfile();
+        var profile = GetTrayAnimationProfile(isShowing: false);
         if (!profile.IsEnabled)
         {
             LogTrayWindow($"PlayHide skipped reason=animation-disabled gen={generation}");

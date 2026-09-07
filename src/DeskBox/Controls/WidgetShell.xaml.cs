@@ -2682,8 +2682,22 @@ public sealed partial class WidgetShell : UserControl
         }
     }
 
-    private void SetBackgroundCornerRadius(double radius) =>
-        BackgroundPlate.CornerRadius = new CornerRadius(Math.Max(0, radius));
+    private void SetBackgroundCornerRadius(double radius)
+    {
+        double outerRadius = Math.Max(0, radius);
+        BackgroundPlate.CornerRadius = new CornerRadius(outerRadius);
+        if (ThemeOuterRim.Visibility != Visibility.Visible)
+        {
+            return;
+        }
+
+        var outer = new CornerRadius(outerRadius);
+        ThemeSurfaceWash.CornerRadius = outer;
+        ThemeDepthEdge.CornerRadius = outer;
+        ThemeOuterRim.CornerRadius = outer;
+        ThemeSpecularLayer.CornerRadius = outer;
+        ThemeInnerRim.CornerRadius = new CornerRadius(Math.Max(0, outerRadius - 2));
+    }
 
     private void ApplyCompactTextVisibility()
     {
@@ -4052,6 +4066,10 @@ public sealed partial class WidgetShell : UserControl
     private void ShellRoot_PointerEntered(object sender, PointerRoutedEventArgs e)
     {
         _isPointerOverShell = true;
+        if (_activeVisualTheme is not null && !_isCollapsed && !_isThemePointerPressed)
+        {
+            AnimateThemeInteractionScale(1, 160);
+        }
         CompactPointerEntered?.Invoke(this, EventArgs.Empty);
         if (_isCollapsed)
         {
@@ -4074,6 +4092,10 @@ public sealed partial class WidgetShell : UserControl
     private void ShellRoot_PointerExited(object sender, PointerRoutedEventArgs e)
     {
         _isPointerOverShell = false;
+        if (_activeVisualTheme is not null && !_isCollapsed && !_isThemePointerPressed)
+        {
+            AnimateThemeInteractionScale(GetThemeRestScale(_activeVisualTheme), 180);
+        }
         HideCompactHint();
         CompactPointerExited?.Invoke(this, EventArgs.Empty);
         if (_isCollapsed)

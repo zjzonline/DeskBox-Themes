@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360">
+  <defs>
+    <linearGradient id="bg" x2="1" y2="1"><stop stop-color="#132536"/><stop offset="1" stop-color="#080a12"/></linearGradient>
+    <linearGradient id="edge"><stop stop-color="#57f1ed"/><stop offset=".5" stop-color="#7d85ff"/><stop offset="1" stop-color="#e45ae8"/></linearGradient>
+    <linearGradient id="glass" x2="1" y2="1"><stop stop-color="#304057" stop-opacity=".88"/><stop offset=".48" stop-color="#111827" stop-opacity=".96"/><stop offset="1" stop-color="#24152e" stop-opacity=".93"/></linearGradient>
+    <filter id="shadow"><feGaussianBlur stdDeviation="18"/></filter>
+  </defs>
+  <rect width="640" height="360" fill="url(#bg)"/>
+  <ellipse cx="122" cy="82" rx="130" ry="95" fill="#32dfe6" opacity=".12" filter="url(#shadow)"/>
+  <ellipse cx="526" cy="290" rx="145" ry="100" fill="#df49df" opacity=".13" filter="url(#shadow)"/>
+  <rect x="92" y="48" width="456" height="264" rx="32" fill="url(#edge)" opacity=".9"/>
+  <rect x="95" y="51" width="450" height="258" rx="29" fill="url(#glass)"/>
+  <path d="M118 79h184" stroke="#fff" stroke-opacity=".58" stroke-width="3" stroke-linecap="round"/>
+  <rect x="122" y="116" width="176" height="62" rx="31" fill="#34e4e5" opacity=".94"/>
+  <rect x="320" y="116" width="196" height="62" rx="31" fill="#25273c" stroke="url(#edge)" stroke-width="3"/>
+  <rect x="122" y="205" width="394" height="58" rx="24" fill="#eaf1ff" opacity=".96"/>
+  <circle cx="153" cy="234" r="10" fill="none" stroke="#192333" stroke-width="3"/><path d="m160 241 8 8" stroke="#192333" stroke-width="3"/>
+  <text x="136" y="154" font-family="Segoe UI, sans-serif" font-size="21" font-weight="600" fill="#0c1b25">Smoke Glass</text>
+  <text x="345" y="154" font-family="Segoe UI, sans-serif" font-size="20" font-weight="600" fill="#fff">Raised edge</text>
+  <text x="184" y="241" font-family="Segoe UI, sans-serif" font-size="20" fill="#15202e">Search your desktop…</text>
+</svg>

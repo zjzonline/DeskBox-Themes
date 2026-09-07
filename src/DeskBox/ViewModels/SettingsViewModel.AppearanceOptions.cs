@@ -8,6 +8,7 @@ using DeskBox.Models;
 using DeskBox.Services;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.UI;
 
 namespace DeskBox.ViewModels;
@@ -37,6 +38,59 @@ public partial class SettingsViewModel
     }
 
     public string SelectedThemeText => GetThemeDisplayName(SelectedTheme);
+
+    public string SelectedVisualTheme
+    {
+        get => _selectedVisualTheme;
+        set
+        {
+            string resolvedId = _themeService.ResolveVisualTheme(value).Id;
+            if (!SetProperty(ref _selectedVisualTheme, resolvedId))
+            {
+                return;
+            }
+
+            OnPropertyChanged(nameof(SelectedVisualThemeText));
+            OnPropertyChanged(nameof(SelectedVisualThemeDescription));
+            OnPropertyChanged(nameof(SelectedVisualThemePreview));
+            if (_isRestoringDefaults || _isApplyingSettingsSnapshot)
+            {
+                return;
+            }
+
+            _themeService.SetVisualTheme(resolvedId);
+        }
+    }
+
+    public string SelectedVisualThemeText =>
+        _themeService.ResolveVisualTheme(SelectedVisualTheme)
+            .GetDisplayName(_localizationService.CurrentCultureName);
+
+    public string SelectedVisualThemeDescription
+    {
+        get
+        {
+            ThemePack theme = _themeService.ResolveVisualTheme(SelectedVisualTheme);
+            return $"{theme.Description}  ·  {theme.Author}  ·  v{theme.Version}";
+        }
+    }
+
+    public ImageSource? SelectedVisualThemePreview
+    {
+        get
+        {
+            string path = _themeService.ResolveVisualTheme(SelectedVisualTheme).PreviewPath;
+            if (string.IsNullOrWhiteSpace(path) || !File.Exists(path))
+            {
+                return null;
+            }
+
+            var uri = new Uri(path);
+            return string.Equals(Path.GetExtension(path), ".svg", StringComparison.OrdinalIgnoreCase)
+                ? new SvgImageSource(uri)
+                : new BitmapImage(uri);
+        }
+    }
 
     public string SelectedTrayIconStyle
     {

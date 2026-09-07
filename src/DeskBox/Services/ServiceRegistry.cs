@@ -30,6 +30,7 @@ public static class ServiceRegistry
                 sp.GetRequiredService<FileService>()));
         services.AddSingleton<QuickCaptureService>(_ => new QuickCaptureService());
         services.AddSingleton<LocalizationService>();
+        services.AddSingleton<ThemePackService>();
         services.AddSingleton<ThemeService>();
 
         // ── Weather ──────────────────────────────────────────────────────

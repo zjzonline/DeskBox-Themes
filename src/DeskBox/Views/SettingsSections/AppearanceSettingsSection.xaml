@@ -32,6 +32,42 @@
             </toolkit:SettingsCard>
 
             <toolkit:SettingsCard
+                HorizontalContentAlignment="Stretch"
+                svc:Localized.DescriptionKey="Settings.VisualTheme.Description"
+                svc:Localized.HeaderKey="Settings.VisualTheme.Title">
+                <toolkit:SettingsCard.HeaderIcon>
+                    <FontIcon Glyph="&#xE771;" />
+                </toolkit:SettingsCard.HeaderIcon>
+                <Grid Margin="0,8,0,0" ColumnSpacing="12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="144" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Border
+                        Height="82"
+                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                        BorderThickness="1"
+                        CornerRadius="10">
+                        <Image Source="{Binding SelectedVisualThemePreview}" Stretch="UniformToFill" />
+                    </Border>
+                    <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="6">
+                        <ComboBox
+                            MinWidth="200"
+                            HorizontalAlignment="Stretch"
+                            ItemsSource="{Binding AvailableVisualThemeOptions}"
+                            controls:SettingsComboBox.Value="{Binding SelectedVisualTheme, Mode=TwoWay}" />
+                        <TextBlock
+                            MaxLines="2"
+                            Opacity="0.68"
+                            Text="{Binding SelectedVisualThemeDescription}"
+                            TextTrimming="CharacterEllipsis"
+                            TextWrapping="Wrap" />
+                    </StackPanel>
+                </Grid>
+            </toolkit:SettingsCard>
+
+            <toolkit:SettingsCard
                 HorizontalContentAlignment="Right"
                 svc:Localized.DescriptionKey="Settings.TrayIcon.Description"
                 svc:Localized.HeaderKey="Settings.TrayIcon.Title">

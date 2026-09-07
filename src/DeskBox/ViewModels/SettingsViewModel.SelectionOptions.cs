@@ -8,6 +8,13 @@ public partial class SettingsViewModel
     public IReadOnlyList<SettingsOption> AvailableThemeOptions =>
         CreateSelectionOptions(AvailableThemes, AvailableThemeDisplayNames);
 
+    public IReadOnlyList<SettingsOption> AvailableVisualThemeOptions =>
+        _themeService.ThemePacks
+            .Select(theme => new SettingsOption(
+                theme.Id,
+                theme.GetDisplayName(_localizationService.CurrentCultureName)))
+            .ToArray();
+
     public IReadOnlyList<SettingsOption> AvailableTrayIconStyleOptions =>
         CreateSelectionOptions(AvailableTrayIconStyles, AvailableTrayIconStyleDisplayNames);
 
@@ -218,6 +225,7 @@ public partial class SettingsViewModel
 
     private void NotifySelectionOptionsChanged()
     {
+        OnPropertyChanged(nameof(AvailableVisualThemeOptions));
         OnPropertyChanged(nameof(AvailableThemeOptions));
         OnPropertyChanged(nameof(AvailableAccentColorSourceOptions));
         OnPropertyChanged(nameof(AvailableFileOpenMethodOptions));

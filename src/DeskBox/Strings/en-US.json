@@ -2646,5 +2646,7 @@
     "DesktopOrganization.Layout.RetentionHelp.AccessDenied": "Permission denied. Check access, then retry; Windows may request authorization.",
     "DesktopOrganization.Layout.RetentionHelp.Unavailable": "Unavailable. Check that the file or drive is accessible, then retry.",
     "DesktopOrganization.Layout.RetentionHelp.TransferFailed": "Could not move. Check the destination and available space, then retry.",
-    "DesktopOrganization.Layout.RetentionHelp.Canceled": "Canceled or permission was declined. Retry to continue unfinished items."
+    "DesktopOrganization.Layout.RetentionHelp.Canceled": "Canceled or permission was declined. Retry to continue unfinished items.",
+    "Settings.VisualTheme.Title": "Visual theme",
+    "Settings.VisualTheme.Description": "Choose a folder-based surface and motion style. Light and dark mode stay independent."
 }

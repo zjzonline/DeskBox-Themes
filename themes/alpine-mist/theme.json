@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "id": "deskbox.alpine-mist",
+  "name": "Alpine Mist",
+  "localizedNames": {
+    "zh-CN": "雾凇",
+    "zh": "雾凇"
+  },
+  "version": "1.0.0",
+  "author": "DeskBox Themes",
+  "license": "GPL-3.0-only",
+  "description": "Quiet porcelain cards, glacier-blue depth, and diffuse winter light.",
+  "minimumDeskBoxVersion": "1.5.0",
+  "preview": "preview.svg",
+  "visuals": {
+    "surfaceColor": "#F0F5F8F8",
+    "deepSurfaceColor": "#E65A7F96",
+    "textPrimaryColor": "#FF173040",
+    "textSecondaryColor": "#A65B6F7C",
+    "accentColor": "#FF2E708E",
+    "edgeStartColor": "#FFFFFFFF",
+    "edgeEndColor": "#FFAFC7D4",
+    "specularColor": "#EFFFFFFF",
+    "shadowColor": "#52415B6C",
+    "surfaceOpacity": 0.94,
+    "cornerRadius": 16,
+    "borderThickness": 1.4,
+    "innerBorderThickness": 0.8,
+    "elevation": 16,
+    "specularOpacity": 0.78,
+    "material": "AcrylicBase",
+    "deepSurfaceWidgetKinds": ["Weather", "Music", "SystemMonitor", "Search", "Glance"]
+  },
+  "motion": {
+    "openDurationMilliseconds": 340,
+    "closeDurationMilliseconds": 220,
+    "hoverScale": 1.014,
+    "pressScale": 0.988,
+    "springDamping": 0.82
+  }
+}

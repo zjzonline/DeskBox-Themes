@@ -2646,5 +2646,7 @@
     "DesktopOrganization.Layout.RetentionHelp.AccessDenied": "প্রবেশাধিকার নেই। অনুমতি যাচাই করে আবার চেষ্টা করুন; Windows অনুমতি চাইতে পারে।",
     "DesktopOrganization.Layout.RetentionHelp.Unavailable": "ফাইল বা ড্রাইভে প্রবেশ করা যাচ্ছে কি না যাচাই করে আবার চেষ্টা করুন।",
     "DesktopOrganization.Layout.RetentionHelp.TransferFailed": "গন্তব্য ও খালি জায়গা যাচাই করে আবার চেষ্টা করুন।",
-    "DesktopOrganization.Layout.RetentionHelp.Canceled": "বাতিল হয়েছে বা অনুমতি মেলেনি। অসমাপ্ত আইটেম চালিয়ে যেতে আবার চেষ্টা করুন।"
+    "DesktopOrganization.Layout.RetentionHelp.Canceled": "বাতিল হয়েছে বা অনুমতি মেলেনি। অসমাপ্ত আইটেম চালিয়ে যেতে আবার চেষ্টা করুন।",
+    "Settings.VisualTheme.Title": "ভিজ্যুয়াল থিম",
+    "Settings.VisualTheme.Description": "ফোল্ডারভিত্তিক সারফেস ও মোশন স্টাইল বেছে নিন। হালকা ও গাঢ় মোড আলাদা থাকবে।"
 }

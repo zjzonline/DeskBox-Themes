@@ -1,4 +1,5 @@
 using DeskBox.Helpers;
+using DeskBox.Models;
 using DeskBox.Services;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -27,6 +28,21 @@ public abstract partial class WidgetWindowBase
             customColor,
             RootElement.ActualTheme,
             highContrast);
+
+        ThemePack visualTheme = App.Current.ThemeService.CurrentVisualTheme;
+        if (!highContrast &&
+            visualTheme.Id != ThemePackService.ClassicThemeId &&
+            string.Equals(mode, WidgetForegroundSettings.ModeFollowTheme, StringComparison.Ordinal))
+        {
+            Color primary = AccentColorHelper.FromHex(visualTheme.Visuals.TextPrimaryColor);
+            Color secondary = AccentColorHelper.FromHex(visualTheme.Visuals.TextSecondaryColor);
+            palette = new WidgetForegroundPalette(
+                primary,
+                secondary,
+                WithAlpha(secondary, 0xCC),
+                WithAlpha(secondary, 0x8F),
+                WithAlpha(secondary, 0x66));
+        }
 
         ApplyForegroundBrushes(palette);
         WidgetShellControl.SetGroupTitleForegroundColors(

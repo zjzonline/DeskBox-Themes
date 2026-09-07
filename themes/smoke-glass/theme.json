@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "id": "deskbox.smoke-glass",
+  "name": "Smoke Glass",
+  "localizedNames": {
+    "zh-CN": "烟熏玻璃",
+    "zh": "烟熏玻璃"
+  },
+  "version": "1.0.0",
+  "author": "DeskBox Themes",
+  "license": "GPL-3.0-only",
+  "description": "Smoked translucent surfaces with raised cyan and violet glass edges.",
+  "minimumDeskBoxVersion": "1.5.0",
+  "preview": "preview.svg",
+  "visuals": {
+    "surfaceColor": "#D0161C27",
+    "deepSurfaceColor": "#E10B101A",
+    "textPrimaryColor": "#FFF8FBFF",
+    "textSecondaryColor": "#BFD1DBE8",
+    "accentColor": "#FF59EEF0",
+    "edgeStartColor": "#FF57F1ED",
+    "edgeEndColor": "#FFE45AE8",
+    "specularColor": "#A6FFFFFF",
+    "shadowColor": "#D9000000",
+    "surfaceOpacity": 0.84,
+    "cornerRadius": 18,
+    "borderThickness": 1.8,
+    "innerBorderThickness": 1.0,
+    "elevation": 24,
+    "specularOpacity": 0.62,
+    "material": "Acrylic",
+    "deepSurfaceWidgetKinds": ["Weather", "Music", "SystemMonitor", "Search"]
+  },
+  "motion": {
+    "openDurationMilliseconds": 380,
+    "closeDurationMilliseconds": 250,
+    "hoverScale": 1.02,
+    "pressScale": 0.982,
+    "springDamping": 0.74
+  }
+}

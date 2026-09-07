@@ -259,6 +259,11 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <CopyToPublishDirectory>Always</CopyToPublishDirectory>
     </Content>
+    <Content Include="..\..\themes\**\theme.json;..\..\themes\**\preview.svg">
+      <Link>Themes\%(RecursiveDir)%(Filename)%(Extension)</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
     <EmbeddedResource Include="Assets\Cities\cities.json" />
 <EmbeddedResource Include="Strings\zh-CN.json" />
 <EmbeddedResource Include="Strings\zh-TW.json" />

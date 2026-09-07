@@ -65,6 +65,13 @@ public sealed partial class QuickCaptureWidgetWindow
 
     protected override Windows.UI.Color BuildNativeBackdropTintColor(bool isDark)
     {
+        ThemePack visualTheme = App.Current.ThemeService.CurrentVisualTheme;
+        bool usesVisualTheme = visualTheme.Id != ThemePackService.ClassicThemeId;
+        if (usesVisualTheme)
+        {
+            return AccentColorHelper.FromHex(visualTheme.Visuals.SurfaceColor);
+        }
+
         var accentColor = App.Current.ThemeService?.GetEffectiveAccentColor()
             ?? AccentColorHelper.DefaultAccentColor;
         var baseColor = isDark
@@ -91,10 +98,29 @@ public sealed partial class QuickCaptureWidgetWindow
     protected override void ApplySurfaceStyle()
     {
         bool isDark = RootGrid.ActualTheme == ElementTheme.Dark;
-        double surfaceOpacity = Math.Clamp(ViewModel.WidgetOpacity, 0.0, 1.0);
-        var accentColor = App.Current.ThemeService?.GetEffectiveAccentColor()
-            ?? AccentColorHelper.DefaultAccentColor;
-        string materialType = _settingsService.Settings.WidgetMaterialType;
+        ThemePack visualTheme = App.Current.ThemeService.CurrentVisualTheme;
+        bool usesVisualTheme = visualTheme.Id != ThemePackService.ClassicThemeId;
+        if (usesVisualTheme)
+        {
+            bool useDeepSurface = visualTheme.Visuals.DeepSurfaceWidgetKinds.Contains(
+                Config.WidgetKind.ToString(),
+                StringComparer.OrdinalIgnoreCase);
+            QuickCaptureShell.ApplyVisualTheme(visualTheme, useDeepSurface);
+        }
+        else
+        {
+            QuickCaptureShell.ClearVisualTheme();
+        }
+
+        double surfaceOpacity = usesVisualTheme
+            ? visualTheme.Visuals.SurfaceOpacity
+            : Math.Clamp(ViewModel.WidgetOpacity, 0.0, 1.0);
+        var accentColor = usesVisualTheme
+            ? AccentColorHelper.FromHex(visualTheme.Visuals.AccentColor)
+            : App.Current.ThemeService?.GetEffectiveAccentColor() ?? AccentColorHelper.DefaultAccentColor;
+        string materialType = usesVisualTheme
+            ? visualTheme.Visuals.Material
+            : _settingsService.Settings.WidgetMaterialType;
 
         // Simplified layering: only apply surface color overlay for Solid mode.
         if (materialType is SettingsService.WidgetMaterialTypeSolid && !IsSolidColorBackdropActive)
@@ -123,9 +149,12 @@ public sealed partial class QuickCaptureWidgetWindow
                     ? ColorHelper.FromArgb(0xD8, 0xC0, 0xC3, 0xC8)
                     : ColorHelper.FromArgb(0xD0, 0x62, 0x65, 0x6A));
 
-        BackgroundPlate.BorderThickness = new Thickness(borderThickness);
-        BackgroundPlate.BorderBrush = GetOrUpdateSolidColorBrush(BackgroundPlate.BorderBrush, borderColor);
-        BackgroundPlate.CornerRadius = new CornerRadius(GetCurrentSurfaceCornerRadius());
+        BackgroundPlate.BorderThickness = new Thickness(usesVisualTheme ? 0 : borderThickness);
+        BackgroundPlate.BorderBrush = GetOrUpdateSolidColorBrush(
+            BackgroundPlate.BorderBrush,
+            usesVisualTheme ? Colors.Transparent : borderColor);
+        BackgroundPlate.CornerRadius = new CornerRadius(
+            usesVisualTheme ? visualTheme.Visuals.CornerRadius : GetCurrentSurfaceCornerRadius());
         HeaderDivider.Background = GetOrUpdateSolidColorBrush(HeaderDivider.Background, dividerColor);
         QuickCaptureShell.TitleIconAccentColor = iconForeground;
         QuickCaptureShell.TitleIconKind = WidgetTitleIconKindNames.QuickCapture;

@@ -23,7 +23,11 @@ public sealed class WidgetManagerStorageCleanupTests : IDisposable
 
         var fileService = new FileService();
         var organizerService = new OrganizerService(_settingsService, fileService);
-        var themeService = new ThemeService(_settingsService);
+        var themePackService = new ThemePackService(
+            Path.Combine(_tempRoot, "built-in-themes"),
+            Path.Combine(_tempRoot, "user-themes"),
+            new Version(1, 5, 0));
+        var themeService = new ThemeService(_settingsService, themePackService);
         _widgetManager = new WidgetManager(
             _settingsService,
             fileService,

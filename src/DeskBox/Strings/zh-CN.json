@@ -2646,5 +2646,7 @@
     "DesktopOrganization.Layout.RetentionHelp.AccessDenied": "没有访问权限，请检查权限后重试；Windows 可能要求授权。",
     "DesktopOrganization.Layout.RetentionHelp.Unavailable": "文件或所在磁盘暂时不可用，恢复访问后可重试。",
     "DesktopOrganization.Layout.RetentionHelp.TransferFailed": "未能移动，请检查目标位置和可用空间后重试。",
-    "DesktopOrganization.Layout.RetentionHelp.Canceled": "已取消或未获授权，可重试继续处理未完成项。"
+    "DesktopOrganization.Layout.RetentionHelp.Canceled": "已取消或未获授权，可重试继续处理未完成项。",
+    "Settings.VisualTheme.Title": "视觉主题",
+    "Settings.VisualTheme.Description": "选择文件夹主题的材质与动效风格；明暗模式仍可独立设置"
 }

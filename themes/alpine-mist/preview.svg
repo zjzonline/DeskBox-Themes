@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360">
+  <defs>
+    <linearGradient id="bg" x2="1" y2="1"><stop stop-color="#edf6f8"/><stop offset="1" stop-color="#cbdde3"/></linearGradient>
+    <linearGradient id="deep" x2="1" y2="1"><stop stop-color="#769aae"/><stop offset="1" stop-color="#3e667d"/></linearGradient>
+    <filter id="soft"><feDropShadow dx="0" dy="12" stdDeviation="12" flood-color="#335267" flood-opacity=".24"/></filter>
+  </defs>
+  <rect width="640" height="360" fill="url(#bg)"/>
+  <g filter="url(#soft)">
+    <rect x="70" y="52" width="150" height="112" rx="22" fill="#f8fbfb" stroke="#fff" stroke-width="3"/>
+    <rect x="242" y="52" width="328" height="112" rx="22" fill="url(#deep)" stroke="#d8e8ee" stroke-width="2"/>
+    <rect x="70" y="186" width="228" height="122" rx="22" fill="#f9fbfb" stroke="#fff" stroke-width="3"/>
+    <rect x="320" y="186" width="250" height="122" rx="22" fill="#f9fbfb" stroke="#fff" stroke-width="3"/>
+  </g>
+  <circle cx="145" cy="108" r="32" fill="none" stroke="#52768a" stroke-width="3"/><path d="M145 80v29l20 13" stroke="#52768a" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <path d="M274 129 328 82l42 34 48-44 120 57" fill="none" stroke="#eaf5f8" stroke-width="4" stroke-linecap="round"/>
+  <text x="96" y="225" font-family="Segoe UI, sans-serif" font-size="20" font-weight="600" fill="#173040">Alpine Mist</text>
+  <text x="96" y="255" font-family="Segoe UI, sans-serif" font-size="15" fill="#607582">Quiet winter surfaces</text>
+  <circle cx="364" cy="234" r="22" fill="#d9e9ee"/><circle cx="430" cy="234" r="22" fill="#acc8d5"/><circle cx="496" cy="234" r="22" fill="#5e8297"/>
+  <path d="M350 280h164" stroke="#b9ccd5" stroke-width="5" stroke-linecap="round"/>
+</svg>

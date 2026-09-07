@@ -2646,5 +2646,7 @@
     "DesktopOrganization.Layout.RetentionHelp.AccessDenied": "Доступ запрещён. Проверьте права и повторите попытку; Windows может запросить разрешение.",
     "DesktopOrganization.Layout.RetentionHelp.Unavailable": "Проверьте доступ к файлу или диску и повторите попытку.",
     "DesktopOrganization.Layout.RetentionHelp.TransferFailed": "Проверьте папку назначения и свободное место и повторите попытку.",
-    "DesktopOrganization.Layout.RetentionHelp.Canceled": "Отменено или разрешение отклонено. Повторите попытку для незавершённых элементов."
+    "DesktopOrganization.Layout.RetentionHelp.Canceled": "Отменено или разрешение отклонено. Повторите попытку для незавершённых элементов.",
+    "Settings.VisualTheme.Title": "Визуальная тема",
+    "Settings.VisualTheme.Description": "Выберите стиль поверхностей и анимации из папки. Светлый и тёмный режимы настраиваются отдельно."
 }

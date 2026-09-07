@@ -1,4 +1,5 @@
 using DeskBox.Helpers;
+using DeskBox.Models;
 using Microsoft.UI.Xaml;
 using WinRT.Interop;
 using Windows.UI;
@@ -14,16 +15,59 @@ public sealed class ThemeService
     public const string AccentModeCustom = "Custom";
 
     private readonly SettingsService _settingsService;
+    private readonly ThemePackService _themePackService;
     private readonly List<Window> _trackedWindows = new();
     private readonly Windows.UI.ViewManagement.UISettings _uiSettings = new();
     private Microsoft.UI.Dispatching.DispatcherQueueTimer? _appearanceDebounceTimer;
 
     public event Action? AppearanceChanged;
 
-    public ThemeService(SettingsService settingsService)
+    public ThemeService(SettingsService settingsService, ThemePackService themePackService)
     {
         _settingsService = settingsService;
+        _themePackService = themePackService;
         _uiSettings.ColorValuesChanged += OnColorValuesChanged;
+    }
+
+    public IReadOnlyList<ThemePack> ThemePacks => _themePackService.Themes;
+
+    public string UserThemeFolder => _themePackService.UserThemeFolder;
+
+    public ThemePack CurrentVisualTheme =>
+        _themePackService.ActiveOrClassic(_settingsService.Settings.VisualThemeId);
+
+    public ThemePack ResolveVisualTheme(string? themeId) =>
+        _themePackService.ActiveOrClassic(themeId);
+
+    public void ReloadThemePacks()
+    {
+        ThemePackSnapshot snapshot = _themePackService.Reload();
+        foreach (ThemePackDiagnostic diagnostic in snapshot.Diagnostics)
+        {
+            App.Log($"[Themes] Ignored folder={diagnostic.FolderPath} reason={diagnostic.Message}");
+        }
+
+        string resolvedId = CurrentVisualTheme.Id;
+        if (!string.Equals(_settingsService.Settings.VisualThemeId, resolvedId, StringComparison.Ordinal))
+        {
+            _settingsService.Settings.VisualThemeId = resolvedId;
+            _settingsService.SaveDebounced(notifySubscribers: false);
+        }
+
+        RefreshAppearance();
+    }
+
+    public void SetVisualTheme(string? themeId)
+    {
+        string resolvedId = ResolveVisualTheme(themeId).Id;
+        if (string.Equals(_settingsService.Settings.VisualThemeId, resolvedId, StringComparison.Ordinal))
+        {
+            return;
+        }
+
+        _settingsService.Settings.VisualThemeId = resolvedId;
+        _settingsService.SaveDebounced(notifySubscribers: false);
+        RefreshAppearance();
     }
 
     private void OnColorValuesChanged(Windows.UI.ViewManagement.UISettings sender, object args)

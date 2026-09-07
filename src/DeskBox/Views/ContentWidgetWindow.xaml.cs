@@ -588,6 +588,13 @@ public sealed partial class ContentWidgetWindow : WidgetWindowBase, IDesktopWidg
 
     protected override Windows.UI.Color BuildNativeBackdropTintColor(bool isDark)
     {
+        ThemePack visualTheme = App.Current.ThemeService.CurrentVisualTheme;
+        bool usesVisualTheme = visualTheme.Id != ThemePackService.ClassicThemeId;
+        if (usesVisualTheme)
+        {
+            return AccentColorHelper.FromHex(visualTheme.Visuals.SurfaceColor);
+        }
+
         var accentColor = App.Current.ThemeService?.GetEffectiveAccentColor()
             ?? AccentColorHelper.DefaultAccentColor;
         return WidgetMaterialVisualCalculator.BuildContentTintColor(isDark, accentColor);
@@ -610,11 +617,28 @@ public sealed partial class ContentWidgetWindow : WidgetWindowBase, IDesktopWidg
     protected override void ApplySurfaceStyle()
     {
         bool isDark = RootGrid.ActualTheme == ElementTheme.Dark;
-        double surfaceOpacity = Math.Clamp(SettingsService.Settings.WidgetOpacity, 0.0, 1.0);
-        var accentColor = App.Current.ThemeService?.GetEffectiveAccentColor()
-            ?? AccentColorHelper.DefaultAccentColor;
+        ThemePack visualTheme = App.Current.ThemeService.CurrentVisualTheme;
+        bool usesVisualTheme = visualTheme.Id != ThemePackService.ClassicThemeId;
+        if (usesVisualTheme)
+        {
+            bool useDeepSurface = visualTheme.Visuals.DeepSurfaceWidgetKinds.Contains(
+                Config.WidgetKind.ToString(),
+                StringComparer.OrdinalIgnoreCase);
+            ContentWidgetShell.ApplyVisualTheme(visualTheme, useDeepSurface);
+        }
+        else
+        {
+            ContentWidgetShell.ClearVisualTheme();
+        }
+
+        double surfaceOpacity = usesVisualTheme
+            ? visualTheme.Visuals.SurfaceOpacity
+            : Math.Clamp(SettingsService.Settings.WidgetOpacity, 0.0, 1.0);
+        var accentColor = usesVisualTheme
+            ? AccentColorHelper.FromHex(visualTheme.Visuals.AccentColor)
+            : App.Current.ThemeService?.GetEffectiveAccentColor() ?? AccentColorHelper.DefaultAccentColor;
         string materialType = WindowsCompatibilityService.ResolveWidgetMaterialType(
-            SettingsService.Settings.WidgetMaterialType);
+            usesVisualTheme ? visualTheme.Visuals.Material : SettingsService.Settings.WidgetMaterialType);
 
         // Simplified layering: only apply surface color overlay for Solid mode.
         if (materialType is SettingsService.WidgetMaterialTypeSolid && !IsSolidColorBackdropActive)
@@ -654,11 +678,13 @@ public sealed partial class ContentWidgetWindow : WidgetWindowBase, IDesktopWidg
             accentColor.G,
             accentColor.B);
 
-        ContentWidgetShell.BackgroundSurface.BorderThickness = new Thickness(borderThickness);
+        ContentWidgetShell.BackgroundSurface.BorderThickness = new Thickness(
+            usesVisualTheme ? 0 : borderThickness);
         ContentWidgetShell.BackgroundSurface.BorderBrush = GetOrUpdateSolidColorBrush(
             ContentWidgetShell.BackgroundSurface.BorderBrush,
-            borderColor);
-        ContentWidgetShell.BackgroundSurface.CornerRadius = new CornerRadius(GetCurrentSurfaceCornerRadius());
+            usesVisualTheme ? Colors.Transparent : borderColor);
+        ContentWidgetShell.BackgroundSurface.CornerRadius = new CornerRadius(
+            usesVisualTheme ? visualTheme.Visuals.CornerRadius : GetCurrentSurfaceCornerRadius());
         ContentWidgetShell.Divider.Background = GetOrUpdateSolidColorBrush(
             ContentWidgetShell.Divider.Background,
             dividerColor);
@@ -769,7 +795,7 @@ private bool PrepareTrayShowAnimationCore(bool restoreBoundsForCurrentTopology)
             boundsRestored = !restoreBoundsForCurrentTopology ||
                 TryRestoreBoundsForCurrentTopology(allowHidden: true);
 
-            var profile = GetTrayAnimationProfile();
+            var profile = GetTrayAnimationProfile(isShowing: true);
             LogTrayWindow(
                 $"PrepareShow gen={TrayAnimation.Generation} topologyRetarget={restoreBoundsForCurrentTopology} " +
                 $"boundsRestored={boundsRestored} effect={SettingsService.Settings.WidgetAnimationEffect} " +

@@ -2646,5 +2646,7 @@
     "DesktopOrganization.Layout.RetentionHelp.AccessDenied": "Zugriff verweigert. Berechtigungen prüfen und erneut versuchen; Windows kann eine Genehmigung anfordern.",
     "DesktopOrganization.Layout.RetentionHelp.Unavailable": "Zugriff auf Datei oder Laufwerk prüfen und erneut versuchen.",
     "DesktopOrganization.Layout.RetentionHelp.TransferFailed": "Ziel und freien Speicher prüfen und erneut versuchen.",
-    "DesktopOrganization.Layout.RetentionHelp.Canceled": "Abgebrochen oder nicht genehmigt. Erneut versuchen, um unfertige Elemente fortzusetzen."
+    "DesktopOrganization.Layout.RetentionHelp.Canceled": "Abgebrochen oder nicht genehmigt. Erneut versuchen, um unfertige Elemente fortzusetzen.",
+    "Settings.VisualTheme.Title": "Visuelles Design",
+    "Settings.VisualTheme.Description": "Wähle einen ordnerbasierten Stil für Oberflächen und Animationen. Hell und Dunkel bleiben unabhängig."
 }

@@ -40,6 +40,7 @@ public partial class SettingsViewModel
         try
         {
             SelectedTheme = settings.Theme is ThemeLight or ThemeDark ? settings.Theme : ThemeSystem;
+            SelectedVisualTheme = _themeService.ResolveVisualTheme(settings.VisualThemeId).Id;
             SelectedTrayIconStyle = settings.TrayIconStyle is TrayIconStyleColorful or TrayIconStyleBlack or TrayIconStyleWhite
                 ? settings.TrayIconStyle
                 : TrayIconStyleSystem;
@@ -354,6 +355,7 @@ RefreshWeatherCityPopularCities();
             _cachedAutomaticBackupIntervalDisplayNames = null;
             _cachedAutomaticBackupRetentionDisplayNames = null;
             OnPropertyChanged(nameof(AvailableThemeDisplayNames));
+            OnPropertyChanged(nameof(AvailableVisualThemeOptions));
             OnPropertyChanged(nameof(AvailableTrayIconStyleDisplayNames));
             OnPropertyChanged(nameof(AvailableLanguageDisplayNames));
             OnPropertyChanged(nameof(AvailableWidgetCornerPreferenceDisplayNames));
@@ -409,6 +411,9 @@ RefreshWeatherCityPopularCities();
         OnPropertyChanged(nameof(WidgetTransparency));
         OnPropertyChanged(nameof(IsWidgetBorderStyleEnabled));
         OnPropertyChanged(nameof(SelectedThemeText));
+        OnPropertyChanged(nameof(SelectedVisualThemeText));
+        OnPropertyChanged(nameof(SelectedVisualThemeDescription));
+        OnPropertyChanged(nameof(SelectedVisualThemePreview));
         OnPropertyChanged(nameof(SelectedTrayIconStyleText));
         OnPropertyChanged(nameof(SelectedLanguageText));
         OnPropertyChanged(nameof(SelectedWidgetCornerPreferenceText));

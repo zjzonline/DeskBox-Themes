@@ -2646,5 +2646,7 @@
     "DesktopOrganization.Layout.RetentionHelp.AccessDenied": "Acesso negado. Verifique as permissões e tente novamente; o Windows pode solicitar autorização.",
     "DesktopOrganization.Layout.RetentionHelp.Unavailable": "Verifique o acesso ao arquivo ou à unidade e tente novamente.",
     "DesktopOrganization.Layout.RetentionHelp.TransferFailed": "Verifique o destino e o espaço livre e tente novamente.",
-    "DesktopOrganization.Layout.RetentionHelp.Canceled": "Cancelado ou sem autorização. Tente novamente para continuar os itens pendentes."
+    "DesktopOrganization.Layout.RetentionHelp.Canceled": "Cancelado ou sem autorização. Tente novamente para continuar os itens pendentes.",
+    "Settings.VisualTheme.Title": "Tema visual",
+    "Settings.VisualTheme.Description": "Escolha um estilo de superfícies e animações em pasta. Os modos claro e escuro continuam independentes."
 }
