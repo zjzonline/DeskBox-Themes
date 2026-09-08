@@ -46,9 +46,29 @@ public sealed class ThemePackService
     public IReadOnlyList<ThemePackDiagnostic> Diagnostics => _snapshot.Diagnostics;
     public string UserThemeFolder => _userRoot;
 
-    public ThemePack ActiveOrClassic(string? themeId) =>
-        Themes.FirstOrDefault(theme => string.Equals(theme.Id, themeId, StringComparison.OrdinalIgnoreCase)) ??
-        Themes.First(theme => theme.Id == ClassicThemeId);
+    public ThemePack ActiveOrClassic(string? themeId)
+    {
+        string normalizedThemeId = NormalizeSavedThemeId(themeId);
+        return Themes.FirstOrDefault(theme =>
+                   string.Equals(theme.Id, normalizedThemeId, StringComparison.OrdinalIgnoreCase)) ??
+               Themes.First(theme => theme.Id == ClassicThemeId);
+    }
+
+    private static string NormalizeSavedThemeId(string? themeId)
+    {
+        string normalized = themeId?.Trim() ?? string.Empty;
+        if (string.Equals(normalized, "SmokeGlass", StringComparison.OrdinalIgnoreCase))
+        {
+            return SmokeGlassThemeId;
+        }
+
+        if (string.Equals(normalized, "AlpineMist", StringComparison.OrdinalIgnoreCase))
+        {
+            return AlpineMistThemeId;
+        }
+
+        return normalized;
+    }
 
     public ThemePackSnapshot Reload()
     {

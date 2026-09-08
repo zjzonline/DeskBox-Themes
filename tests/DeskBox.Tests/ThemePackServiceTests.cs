@@ -34,6 +34,20 @@ public sealed class ThemePackServiceTests : IDisposable
     }
 
     [Fact]
+    public void ActiveOrClassic_MapsLegacyBuiltInThemeIds()
+    {
+        string builtIn = Directory.CreateDirectory(Path.Combine(_root, "built-in")).FullName;
+        string user = Directory.CreateDirectory(Path.Combine(_root, "user")).FullName;
+        WriteTheme(builtIn, ThemePackService.SmokeGlassThemeId, "Smoke Glass", "烟熏玻璃");
+        WriteTheme(builtIn, ThemePackService.AlpineMistThemeId, "Alpine Mist", "雾凇");
+
+        var service = new ThemePackService(builtIn, user, new Version(1, 5, 0));
+
+        Assert.Equal(ThemePackService.SmokeGlassThemeId, service.ActiveOrClassic("SmokeGlass").Id);
+        Assert.Equal(ThemePackService.AlpineMistThemeId, service.ActiveOrClassic("AlpineMist").Id);
+    }
+
+    [Fact]
     public void Reload_QuarantinesIncompatibleAndTraversalPacks()
     {
         string builtIn = Directory.CreateDirectory(Path.Combine(_root, "built-in")).FullName;
