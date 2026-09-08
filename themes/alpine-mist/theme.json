@@ -6,7 +6,7 @@
     "zh-CN": "雾凇",
     "zh": "雾凇"
   },
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "DeskBox Themes",
   "license": "GPL-3.0-only",
   "description": "Quiet porcelain cards, glacier-blue depth, and diffuse winter light.",
@@ -24,9 +24,9 @@
     "shadowColor": "#52415B6C",
     "surfaceOpacity": 0.94,
     "cornerRadius": 16,
-    "borderThickness": 1.4,
-    "innerBorderThickness": 0.8,
-    "elevation": 16,
+    "borderThickness": 0.9,
+    "innerBorderThickness": 0.45,
+    "elevation": 10,
     "specularOpacity": 0.78,
     "material": "AcrylicBase",
     "deepSurfaceWidgetKinds": ["Weather", "Music", "SystemMonitor", "Search", "Glance"]
