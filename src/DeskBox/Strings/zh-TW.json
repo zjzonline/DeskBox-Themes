@@ -2648,5 +2648,7 @@
     "DesktopOrganization.Layout.RetentionHelp.TransferFailed": "無法移動，請檢查目標位置與可用空間後重試。",
     "DesktopOrganization.Layout.RetentionHelp.Canceled": "已取消或未獲授權，可重試以繼續處理未完成項目。",
     "Settings.VisualTheme.Title": "視覺主題",
-    "Settings.VisualTheme.Description": "選擇資料夾主題的材質與動效風格；明暗模式仍可獨立設定"
+    "Settings.VisualTheme.Description": "選擇資料夾主題的材質與動效風格；明暗模式仍可獨立設定",
+    "Settings.VisualTheme.OpenFolder": "開啟主題資料夾",
+    "Settings.VisualTheme.Reload": "重新掃描主題"
 }

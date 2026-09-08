@@ -2648,5 +2648,7 @@
     "DesktopOrganization.Layout.RetentionHelp.TransferFailed": "Ziel und freien Speicher prüfen und erneut versuchen.",
     "DesktopOrganization.Layout.RetentionHelp.Canceled": "Abgebrochen oder nicht genehmigt. Erneut versuchen, um unfertige Elemente fortzusetzen.",
     "Settings.VisualTheme.Title": "Visuelles Design",
-    "Settings.VisualTheme.Description": "Wähle einen ordnerbasierten Stil für Oberflächen und Animationen. Hell und Dunkel bleiben unabhängig."
+    "Settings.VisualTheme.Description": "Wähle einen ordnerbasierten Stil für Oberflächen und Animationen. Hell und Dunkel bleiben unabhängig.",
+    "Settings.VisualTheme.OpenFolder": "Designordner öffnen",
+    "Settings.VisualTheme.Reload": "Designs neu laden"
 }

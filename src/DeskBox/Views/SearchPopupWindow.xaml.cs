@@ -62,6 +62,11 @@ public sealed partial class SearchPopupWindow : Window
     private ICompositionSupportsSystemBackdrop? _backdropTarget;
     private bool _micaControllerAttached;
     private bool _acrylicControllerAttached;
+    private bool _hasCustomWindowRegion;
+    private int _customWindowRegionWidth;
+    private int _customWindowRegionHeight;
+    private int _customWindowRegionRadius;
+    private double _popupOpenOffset = 4;
 
     private const int MinPopupWidth = 400;
     private const int MinPopupHeight = 300;
@@ -145,6 +150,7 @@ public sealed partial class SearchPopupWindow : Window
         _viewModel.OwnerWindowHandle = _hwnd;
         var windowId = Win32Interop.GetWindowIdFromWindow(_hwnd);
         _appWindow = AppWindow.GetFromWindowId(windowId);
+        _appWindow.Changed += OnAppWindowChanged;
 
         ConfigureWindow();
         ApplyTheme();
@@ -260,7 +266,7 @@ public sealed partial class SearchPopupWindow : Window
             PositionOnScreen();
         }
         RootGrid.Opacity = AreSystemAnimationsEnabled() ? 0 : 1;
-        PopupTranslateTransform.Y = AreSystemAnimationsEnabled() ? 4 : 0;
+        PopupTranslateTransform.Y = AreSystemAnimationsEnabled() ? _popupOpenOffset : 0;
         _appWindow?.Show();
         IsPopupVisible = true;
         PopupShown?.Invoke(this, EventArgs.Empty);
@@ -535,6 +541,9 @@ public sealed partial class SearchPopupWindow : Window
             theme = Win32Helper.IsSystemDarkMode() ? ElementTheme.Dark : ElementTheme.Light;
 
         RootGrid.RequestedTheme = theme;
+        ApplyPopupThemeMotion();
+        ApplyWindowCornerPreference();
+        ApplyVisualThemeChrome(RootGrid.ActualTheme == ElementTheme.Dark);
 
         // A pre-warmed hidden shell intentionally owns no backdrop controller.
         // The current material is applied immediately before the next native show.
@@ -801,6 +810,28 @@ public sealed partial class SearchPopupWindow : Window
     /// </summary>
     private void ApplyWindowCornerPreference()
     {
+        ThemePack? visualTheme = _themeService?.CurrentVisualTheme;
+        if (visualTheme is not null && visualTheme.Id != ThemePackService.ClassicThemeId)
+        {
+            double radius = Math.Clamp(visualTheme.Visuals.CornerRadius, 0, 64);
+            SetThemeCornerRadius(radius);
+            PopupBorderOverlay.CornerRadius = new CornerRadius(radius);
+
+            if (!WindowsCompatibilityService.SupportsNativeWindowCorners)
+            {
+                ApplyCustomWindowRegion(radius);
+                return;
+            }
+
+            ClearCustomWindowRegion();
+            int themedCornerPreference = Win32Helper.DWMWCP_ROUND;
+            Win32Helper.TrySetDwmWindowAttribute(
+                _hwnd, Win32Helper.DWMWA_WINDOW_CORNER_PREFERENCE,
+                ref themedCornerPreference);
+            return;
+        }
+
+        ClearCustomWindowRegion();
         string effectivePreference = WindowsCompatibilityService.ResolveEffectiveWidgetCornerPreference(
             _settingsService.Settings.WidgetCornerPreference);
         int cornerPreference = effectivePreference switch
@@ -831,13 +862,28 @@ public sealed partial class SearchPopupWindow : Window
         }
 
         bool isDark = RootGrid.ActualTheme == ElementTheme.Dark;
-        var accentColor = (App.Current as App)?.ThemeService?.GetEffectiveAccentColor()
-                          ?? AccentColorHelper.DefaultAccentColor;
+        ThemePack? visualTheme = _themeService?.CurrentVisualTheme;
+        bool usesVisualTheme = visualTheme is not null &&
+            visualTheme.Id != ThemePackService.ClassicThemeId;
+        var accentColor = usesVisualTheme
+            ? AccentColorHelper.FromHex(visualTheme!.Visuals.AccentColor)
+            : (App.Current as App)?.ThemeService?.GetEffectiveAccentColor()
+              ?? AccentColorHelper.DefaultAccentColor;
 
         string materialType = WindowsCompatibilityService.ResolveWidgetMaterialType(
-            _settingsService.Settings.WidgetMaterialType);
-        double surfaceOpacity = Math.Clamp(_settingsService.Settings.WidgetOpacity, 0.0, 1.0);
-        double materialIntensity = Math.Clamp(_settingsService.Settings.WidgetMaterialIntensity, 0.0, 1.0);
+            usesVisualTheme ? visualTheme!.Visuals.Material : _settingsService.Settings.WidgetMaterialType);
+        double surfaceOpacity = usesVisualTheme
+            ? Math.Clamp(visualTheme!.Visuals.SurfaceOpacity, 0.0, 1.0)
+            : Math.Clamp(_settingsService.Settings.WidgetOpacity, 0.0, 1.0);
+        double materialIntensity = usesVisualTheme
+            ? 1
+            : Math.Clamp(_settingsService.Settings.WidgetMaterialIntensity, 0.0, 1.0);
+        Windows.UI.Color nativeTintColor = usesVisualTheme
+            ? ToOpaque(AccentColorHelper.FromHex(
+                visualTheme!.Visuals.DeepSurfaceWidgetKinds.Contains("Search", StringComparer.OrdinalIgnoreCase)
+                    ? visualTheme.Visuals.DeepSurfaceColor
+                    : visualTheme.Visuals.SurfaceColor))
+            : BuildNativeBackdropTintColor(isDark, accentColor, materialIntensity);
 
         try
         {
@@ -851,7 +897,7 @@ public sealed partial class SearchPopupWindow : Window
             {
                 controllerApplied = ApplyMicaController(
                     isDark,
-                    BuildNativeBackdropTintColor(isDark, accentColor, materialIntensity),
+                    nativeTintColor,
                     materialType == SettingsService.WidgetMaterialTypeMicaAlt);
             }
 
@@ -859,7 +905,7 @@ public sealed partial class SearchPopupWindow : Window
             {
                 controllerApplied = ApplyAcrylicController(
                     isDark,
-                    BuildNativeBackdropTintColor(isDark, accentColor, materialIntensity),
+                    nativeTintColor,
                     surfaceOpacity,
                     materialType == SettingsService.WidgetMaterialTypeAcrylicBase);
             }
@@ -898,7 +944,7 @@ public sealed partial class SearchPopupWindow : Window
                         : Math.Min(surfaceOpacity, 0.52);
                 Win32Helper.ApplyAccentBlur(
                     _hwnd,
-                    BuildNativeBackdropTintColor(isDark, accentColor, materialIntensity),
+                    nativeTintColor,
                     accentOpacity,
                     true);
                 RootGrid.Background = new SolidColorBrush(Windows.UI.Color.FromArgb(0x01, 0x00, 0x00, 0x00));
@@ -917,18 +963,231 @@ public sealed partial class SearchPopupWindow : Window
                 : Math.Min(surfaceOpacity, 0.52);
             Win32Helper.ApplyAccentBlur(
                 _hwnd,
-                BuildNativeBackdropTintColor(isDark, accentColor, materialIntensity),
+                nativeTintColor,
                 fallbackOpacity,
                 true);
         }
 
-        var (thickness, borderColor) = GetPopupBorderVisuals(isDark, accentColor);
-        PopupBorderOverlay.BorderThickness = new Thickness(thickness);
-        PopupBorderOverlay.BorderBrush = borderColor.A == 0
-            ? null
-            : new SolidColorBrush(borderColor);
+        if (usesVisualTheme)
+        {
+            PopupBorderOverlay.BorderThickness = new Thickness(0);
+            PopupBorderOverlay.BorderBrush = null;
+        }
+        else
+        {
+            var (thickness, borderColor) = GetPopupBorderVisuals(isDark, accentColor);
+            PopupBorderOverlay.BorderThickness = new Thickness(thickness);
+            PopupBorderOverlay.BorderBrush = borderColor.A == 0
+                ? null
+                : new SolidColorBrush(borderColor);
+        }
+
+        ApplyVisualThemeChrome(isDark);
 
     }
+
+    private void ApplyVisualThemeChrome(bool isDark)
+    {
+        ThemePack? theme = _themeService?.CurrentVisualTheme;
+        if (theme is null || theme.Id == ThemePackService.ClassicThemeId)
+        {
+            SetThemeLayerVisibility(Visibility.Collapsed);
+            SearchBoxBorder.Background = new SolidColorBrush(isDark
+                ? Windows.UI.Color.FromArgb(0xB8, 0x20, 0x20, 0x20)
+                : Windows.UI.Color.FromArgb(0xD8, 0xFA, 0xFA, 0xFA));
+            SearchBoxBorder.BorderBrush = new SolidColorBrush(isDark
+                ? Windows.UI.Color.FromArgb(0x24, 0xFF, 0xFF, 0xFF)
+                : Windows.UI.Color.FromArgb(0x20, 0x00, 0x00, 0x00));
+            SearchBoxBorder.BorderThickness = new Thickness(1);
+            SearchBoxBorder.CornerRadius = new CornerRadius(8);
+            SearchTextBox.Foreground = new SolidColorBrush(isDark
+                ? Windows.UI.Color.FromArgb(0xFF, 0xF5, 0xF5, 0xF5)
+                : Windows.UI.Color.FromArgb(0xFF, 0x1B, 0x1B, 0x1B));
+            HotkeyHintBadge.Background = new SolidColorBrush(isDark
+                ? Windows.UI.Color.FromArgb(0x18, 0xFF, 0xFF, 0xFF)
+                : Windows.UI.Color.FromArgb(0x0D, 0x00, 0x00, 0x00));
+            return;
+        }
+
+        ThemeVisualTokens visuals = theme.Visuals;
+        bool useDeepSurface = visuals.DeepSurfaceWidgetKinds.Contains(
+            "Search", StringComparer.OrdinalIgnoreCase);
+        Windows.UI.Color surface = AccentColorHelper.FromHex(
+            useDeepSurface ? visuals.DeepSurfaceColor : visuals.SurfaceColor);
+        Windows.UI.Color specular = AccentColorHelper.FromHex(visuals.SpecularColor);
+        double radius = Math.Clamp(visuals.CornerRadius, 0, 64);
+
+        ThemeSurfaceWash.Background = new SolidColorBrush(WithScaledAlpha(
+            surface,
+            visuals.Material is "Acrylic" or "AcrylicBase" ? 0.22 : visuals.SurfaceOpacity));
+
+        Windows.UI.Color shadow = AccentColorHelper.FromHex(visuals.ShadowColor);
+        ThemeDepthEdge.BorderBrush = new SolidColorBrush(WithScaledAlpha(shadow, 0.72));
+        double depth = Math.Clamp(visuals.Elevation / 8, 1, 6);
+        ThemeDepthEdge.BorderThickness = new Thickness(0, 0, depth * 0.82, depth);
+
+        var outerRim = new LinearGradientBrush
+        {
+            StartPoint = new Point(0, 0),
+            EndPoint = new Point(1, 1)
+        };
+        outerRim.GradientStops.Add(new GradientStop
+        {
+            Color = AccentColorHelper.FromHex(visuals.EdgeStartColor), Offset = 0
+        });
+        outerRim.GradientStops.Add(new GradientStop
+        {
+            Color = WithScaledAlpha(specular, 0.6), Offset = 0.42
+        });
+        outerRim.GradientStops.Add(new GradientStop
+        {
+            Color = AccentColorHelper.FromHex(visuals.EdgeEndColor), Offset = 1
+        });
+        ThemeOuterRim.BorderBrush = outerRim;
+        ThemeOuterRim.BorderThickness = new Thickness(visuals.BorderThickness);
+
+        ThemeInnerRim.BorderBrush = new SolidColorBrush(WithScaledAlpha(
+            specular, visuals.SpecularOpacity));
+        ThemeInnerRim.BorderThickness = new Thickness(visuals.InnerBorderThickness);
+
+        var highlight = new LinearGradientBrush
+        {
+            StartPoint = new Point(0.05, 0),
+            EndPoint = new Point(0.72, 1)
+        };
+        highlight.GradientStops.Add(new GradientStop
+        {
+            Color = WithScaledAlpha(specular, visuals.SpecularOpacity * 0.34), Offset = 0
+        });
+        highlight.GradientStops.Add(new GradientStop
+        {
+            Color = WithScaledAlpha(specular, visuals.SpecularOpacity * 0.08), Offset = 0.36
+        });
+        highlight.GradientStops.Add(new GradientStop { Color = Colors.Transparent, Offset = 0.68 });
+        ThemeSpecularLayer.Background = highlight;
+
+        SetThemeCornerRadius(radius);
+        SetThemeLayerVisibility(Visibility.Visible);
+
+        double searchRadius = Math.Clamp(radius * 0.62, 8, 14);
+        SearchBoxBorder.CornerRadius = new CornerRadius(searchRadius);
+        SearchBoxBorder.Background = new SolidColorBrush(WithScaledAlpha(surface, 0.44));
+        SearchBoxBorder.BorderBrush = outerRim;
+        SearchBoxBorder.BorderThickness = new Thickness(Math.Max(1, visuals.BorderThickness * 0.78));
+        SearchTextBox.Foreground = new SolidColorBrush(
+            AccentColorHelper.FromHex(visuals.TextPrimaryColor));
+        HotkeyHintBadge.Background = new SolidColorBrush(WithScaledAlpha(specular, 0.12));
+    }
+
+    private void SetThemeCornerRadius(double radius)
+    {
+        var outer = new CornerRadius(radius);
+        ThemeSurfaceWash.CornerRadius = outer;
+        ThemeDepthEdge.CornerRadius = outer;
+        ThemeOuterRim.CornerRadius = outer;
+        ThemeInnerRim.CornerRadius = new CornerRadius(Math.Max(0, radius - 2));
+        ThemeSpecularLayer.CornerRadius = outer;
+    }
+
+    private void SetThemeLayerVisibility(Visibility visibility)
+    {
+        ThemeSurfaceWash.Visibility = visibility;
+        ThemeDepthEdge.Visibility = visibility;
+        ThemeOuterRim.Visibility = visibility;
+        ThemeInnerRim.Visibility = visibility;
+        ThemeSpecularLayer.Visibility = visibility;
+    }
+
+    private void ApplyPopupThemeMotion()
+    {
+        ThemePack? theme = _themeService?.CurrentVisualTheme;
+        bool usesVisualTheme = theme is not null && theme.Id != ThemePackService.ClassicThemeId;
+        int openMilliseconds = usesVisualTheme ? theme!.Motion.OpenDurationMilliseconds : 167;
+        int closeMilliseconds = usesVisualTheme ? theme!.Motion.CloseDurationMilliseconds : 83;
+        _popupOpenOffset = usesVisualTheme
+            ? Math.Clamp(theme!.Visuals.Elevation / 4, 5, 10)
+            : 4;
+
+        foreach (Timeline animation in PopupShowStoryboard.Children)
+        {
+            animation.Duration = new Duration(TimeSpan.FromMilliseconds(openMilliseconds));
+        }
+        foreach (Timeline animation in PopupHideStoryboard.Children)
+        {
+            animation.Duration = new Duration(TimeSpan.FromMilliseconds(closeMilliseconds));
+        }
+        PopupShowOffsetAnimation.From = _popupOpenOffset;
+        PopupHideOffsetAnimation.To = -Math.Max(2, _popupOpenOffset * 0.45);
+    }
+
+    private void OnAppWindowChanged(AppWindow sender, AppWindowChangedEventArgs args)
+    {
+        if (args.DidSizeChange && _themeService?.CurrentVisualTheme.Id != ThemePackService.ClassicThemeId)
+        {
+            ApplyWindowCornerPreference();
+        }
+    }
+
+    private void ApplyCustomWindowRegion(double logicalRadius)
+    {
+        if (_appWindow is null)
+        {
+            return;
+        }
+
+        SizeInt32 size = _appWindow.Size;
+        double scale = Win32Helper.GetDpiScaleForWindow(_hwnd, RootGrid.XamlRoot);
+        int radius = Math.Max(1, (int)Math.Round(logicalRadius * scale));
+        if (_hasCustomWindowRegion &&
+            _customWindowRegionWidth == size.Width &&
+            _customWindowRegionHeight == size.Height &&
+            _customWindowRegionRadius == radius)
+        {
+            return;
+        }
+
+        IntPtr region = Win32Helper.CreateRoundRectRgn(
+            0, 0, Math.Max(1, size.Width) + 1, Math.Max(1, size.Height) + 1,
+            radius * 2, radius * 2);
+        if (region == IntPtr.Zero)
+        {
+            return;
+        }
+
+        if (Win32Helper.SetWindowRgn(_hwnd, region, redraw: true) == 0)
+        {
+            Win32Helper.DeleteObject(region);
+            return;
+        }
+
+        _hasCustomWindowRegion = true;
+        _customWindowRegionWidth = size.Width;
+        _customWindowRegionHeight = size.Height;
+        _customWindowRegionRadius = radius;
+    }
+
+    private void ClearCustomWindowRegion()
+    {
+        if (!_hasCustomWindowRegion)
+        {
+            return;
+        }
+
+        Win32Helper.SetWindowRgn(_hwnd, IntPtr.Zero, redraw: true);
+        _hasCustomWindowRegion = false;
+        _customWindowRegionWidth = 0;
+        _customWindowRegionHeight = 0;
+        _customWindowRegionRadius = 0;
+    }
+
+    private static Windows.UI.Color WithScaledAlpha(Windows.UI.Color color, double scale)
+    {
+        byte alpha = (byte)Math.Clamp(Math.Round(color.A * Math.Clamp(scale, 0, 1)), 0, 255);
+        return Windows.UI.Color.FromArgb(alpha, color.R, color.G, color.B);
+    }
+
+    private static Windows.UI.Color ToOpaque(Windows.UI.Color color) =>
+        Windows.UI.Color.FromArgb(0xFF, color.R, color.G, color.B);
 
     /// <summary>
     /// Builds the tint color for native backdrop materials by blending the base
@@ -4404,6 +4663,8 @@ public sealed partial class SearchPopupWindow : Window
         _localizationService.LanguageChanged -= OnLanguageChanged;
         if (_themeService is not null)
             _themeService.AppearanceChanged -= OnThemeServiceAppearanceChanged;
+        if (_appWindow is not null)
+            _appWindow.Changed -= OnAppWindowChanged;
         Activated -= OnWindowActivated;
         PopupHideStoryboard.Stop();
         PopupHideStoryboard.Completed -= OnPopupHideCompleted;

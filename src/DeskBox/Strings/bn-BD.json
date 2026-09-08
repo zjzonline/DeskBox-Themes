@@ -2648,5 +2648,7 @@
     "DesktopOrganization.Layout.RetentionHelp.TransferFailed": "গন্তব্য ও খালি জায়গা যাচাই করে আবার চেষ্টা করুন।",
     "DesktopOrganization.Layout.RetentionHelp.Canceled": "বাতিল হয়েছে বা অনুমতি মেলেনি। অসমাপ্ত আইটেম চালিয়ে যেতে আবার চেষ্টা করুন।",
     "Settings.VisualTheme.Title": "ভিজ্যুয়াল থিম",
-    "Settings.VisualTheme.Description": "ফোল্ডারভিত্তিক সারফেস ও মোশন স্টাইল বেছে নিন। হালকা ও গাঢ় মোড আলাদা থাকবে।"
+    "Settings.VisualTheme.Description": "ফোল্ডারভিত্তিক সারফেস ও মোশন স্টাইল বেছে নিন। হালকা ও গাঢ় মোড আলাদা থাকবে।",
+    "Settings.VisualTheme.OpenFolder": "থিম ফোল্ডার খুলুন",
+    "Settings.VisualTheme.Reload": "থিম পুনরায় লোড করুন"
 }

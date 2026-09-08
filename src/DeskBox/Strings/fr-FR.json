@@ -2648,5 +2648,7 @@
     "DesktopOrganization.Layout.RetentionHelp.TransferFailed": "Vérifiez la destination et l’espace libre, puis réessayez.",
     "DesktopOrganization.Layout.RetentionHelp.Canceled": "Annulé ou autorisation refusée. Réessayez pour poursuivre les éléments inachevés.",
     "Settings.VisualTheme.Title": "Thème visuel",
-    "Settings.VisualTheme.Description": "Choisissez un style de surfaces et d’animations dans un dossier. Les modes clair et sombre restent indépendants."
+    "Settings.VisualTheme.Description": "Choisissez un style de surfaces et d’animations dans un dossier. Les modes clair et sombre restent indépendants.",
+    "Settings.VisualTheme.OpenFolder": "Ouvrir le dossier des thèmes",
+    "Settings.VisualTheme.Reload": "Recharger les thèmes"
 }

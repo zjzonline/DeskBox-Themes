@@ -2648,5 +2648,7 @@
     "DesktopOrganization.Layout.RetentionHelp.TransferFailed": "गंतव्य और खाली जगह जाँचकर फिर आज़माएँ।",
     "DesktopOrganization.Layout.RetentionHelp.Canceled": "रद्द हुआ या अनुमति नहीं मिली। अधूरे आइटम जारी रखने के लिए फिर आज़माएँ।",
     "Settings.VisualTheme.Title": "दृश्य थीम",
-    "Settings.VisualTheme.Description": "फ़ोल्डर से सतह और गति शैली चुनें। हल्का और गहरा मोड अलग रहता है।"
+    "Settings.VisualTheme.Description": "फ़ोल्डर से सतह और गति शैली चुनें। हल्का और गहरा मोड अलग रहता है।",
+    "Settings.VisualTheme.OpenFolder": "थीम फ़ोल्डर खोलें",
+    "Settings.VisualTheme.Reload": "थीम फिर से लोड करें"
 }

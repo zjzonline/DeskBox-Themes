@@ -33,4 +33,32 @@ public sealed partial class AppearanceSettingsSection : UserControl
 
         viewModel.SetCustomAccentColor(color);
     }
+
+    private async void OpenVisualThemeFolderButton_Click(object sender, RoutedEventArgs e)
+    {
+        if (DataContext is not SettingsViewModel viewModel)
+        {
+            return;
+        }
+
+        try
+        {
+            Directory.CreateDirectory(viewModel.VisualThemeFolderPath);
+            var folder = await Windows.Storage.StorageFolder.GetFolderFromPathAsync(
+                viewModel.VisualThemeFolderPath);
+            await Windows.System.Launcher.LaunchFolderAsync(folder);
+        }
+        catch (Exception ex)
+        {
+            App.Log($"[Themes] Failed to open user theme folder: {ex.Message}");
+        }
+    }
+
+    private void ReloadVisualThemesButton_Click(object sender, RoutedEventArgs e)
+    {
+        if (DataContext is SettingsViewModel viewModel)
+        {
+            viewModel.ReloadVisualThemes();
+        }
+    }
 }

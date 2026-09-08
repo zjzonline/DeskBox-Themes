@@ -33,7 +33,8 @@
                         <CubicEase EasingMode="EaseOut"/>
                     </DoubleAnimation.EasingFunction>
                 </DoubleAnimation>
-                <DoubleAnimation Storyboard.TargetName="PopupTranslateTransform"
+                <DoubleAnimation x:Name="PopupShowOffsetAnimation"
+                                 Storyboard.TargetName="PopupTranslateTransform"
                                  Storyboard.TargetProperty="Y"
                                  From="4" To="0" Duration="0:0:0.167">
                     <DoubleAnimation.EasingFunction>
@@ -49,7 +50,8 @@
                         <CubicEase EasingMode="EaseIn"/>
                     </DoubleAnimation.EasingFunction>
                 </DoubleAnimation>
-                <DoubleAnimation Storyboard.TargetName="PopupTranslateTransform"
+                <DoubleAnimation x:Name="PopupHideOffsetAnimation"
+                                 Storyboard.TargetName="PopupTranslateTransform"
                                  Storyboard.TargetProperty="Y"
                                  From="0" To="-2" Duration="0:0:0.083">
                     <DoubleAnimation.EasingFunction>
@@ -292,6 +294,20 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
+
+        <!-- Theme-pack chrome is rendered by DeskBox from bounded data tokens. Keeping
+             these layers inside the app preserves Acrylic wallpaper sampling while
+             adding the raised edge and specular depth that DWM does not provide. -->
+        <Border x:Name="ThemeSurfaceWash" Grid.RowSpan="5"
+                IsHitTestVisible="False" Visibility="Collapsed" />
+        <Border x:Name="ThemeDepthEdge" Grid.RowSpan="5"
+                IsHitTestVisible="False" Visibility="Collapsed" />
+        <Border x:Name="ThemeOuterRim" Grid.RowSpan="5"
+                IsHitTestVisible="False" Visibility="Collapsed" />
+        <Border x:Name="ThemeInnerRim" Grid.RowSpan="5" Margin="2"
+                IsHitTestVisible="False" Visibility="Collapsed" />
+        <Border x:Name="ThemeSpecularLayer" Grid.RowSpan="5"
+                IsHitTestVisible="False" Visibility="Collapsed" />
 
         <!-- ── Row 0: search box with icon, input, keycap badge and focus underline ── -->
         <Grid x:Name="SearchBoxRow" Grid.Row="0" Padding="12,12,12,8">

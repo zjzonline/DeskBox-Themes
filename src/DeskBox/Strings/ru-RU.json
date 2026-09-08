@@ -2648,5 +2648,7 @@
     "DesktopOrganization.Layout.RetentionHelp.TransferFailed": "Проверьте папку назначения и свободное место и повторите попытку.",
     "DesktopOrganization.Layout.RetentionHelp.Canceled": "Отменено или разрешение отклонено. Повторите попытку для незавершённых элементов.",
     "Settings.VisualTheme.Title": "Визуальная тема",
-    "Settings.VisualTheme.Description": "Выберите стиль поверхностей и анимации из папки. Светлый и тёмный режимы настраиваются отдельно."
+    "Settings.VisualTheme.Description": "Выберите стиль поверхностей и анимации из папки. Светлый и тёмный режимы настраиваются отдельно.",
+    "Settings.VisualTheme.OpenFolder": "Открыть папку тем",
+    "Settings.VisualTheme.Reload": "Обновить темы"
 }

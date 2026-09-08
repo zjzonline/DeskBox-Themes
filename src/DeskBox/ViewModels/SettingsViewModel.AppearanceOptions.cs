@@ -15,6 +15,10 @@ namespace DeskBox.ViewModels;
 
 public partial class SettingsViewModel
 {
+    public string VisualThemeFolderPath => _themeService.UserThemeFolder;
+
+    public void ReloadVisualThemes() => _themeService.ReloadThemePacks();
+
     public string SelectedTheme
     {
         get => _selectedTheme;

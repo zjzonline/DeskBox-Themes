@@ -2648,5 +2648,7 @@
     "DesktopOrganization.Layout.RetentionHelp.TransferFailed": "Comprueba el destino y el espacio libre y reintenta.",
     "DesktopOrganization.Layout.RetentionHelp.Canceled": "Cancelado o sin autorización. Reintenta para continuar con los pendientes.",
     "Settings.VisualTheme.Title": "Tema visual",
-    "Settings.VisualTheme.Description": "Elige un estilo de superficies y animaciones basado en carpetas. Los modos claro y oscuro siguen separados."
+    "Settings.VisualTheme.Description": "Elige un estilo de superficies y animaciones basado en carpetas. Los modos claro y oscuro siguen separados.",
+    "Settings.VisualTheme.OpenFolder": "Abrir carpeta de temas",
+    "Settings.VisualTheme.Reload": "Recargar temas"
 }

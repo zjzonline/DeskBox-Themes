@@ -63,6 +63,12 @@
                             Text="{Binding SelectedVisualThemeDescription}"
                             TextTrimming="CharacterEllipsis"
                             TextWrapping="Wrap" />
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <Button Click="OpenVisualThemeFolderButton_Click"
+                                    svc:Localized.Key="Settings.VisualTheme.OpenFolder" />
+                            <Button Click="ReloadVisualThemesButton_Click"
+                                    svc:Localized.Key="Settings.VisualTheme.Reload" />
+                        </StackPanel>
                     </StackPanel>
                 </Grid>
             </toolkit:SettingsCard>

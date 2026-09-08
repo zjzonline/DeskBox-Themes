@@ -515,6 +515,17 @@ _ = RefreshQuickAccessStateAsync();
 
     private void OnAppearanceChanged()
     {
+        string resolvedVisualTheme = _themeService.ResolveVisualTheme(_selectedVisualTheme).Id;
+        if (!string.Equals(_selectedVisualTheme, resolvedVisualTheme, StringComparison.Ordinal))
+        {
+            _selectedVisualTheme = resolvedVisualTheme;
+            OnPropertyChanged(nameof(SelectedVisualTheme));
+        }
+
+        OnPropertyChanged(nameof(AvailableVisualThemeOptions));
+        OnPropertyChanged(nameof(SelectedVisualThemeText));
+        OnPropertyChanged(nameof(SelectedVisualThemeDescription));
+        OnPropertyChanged(nameof(SelectedVisualThemePreview));
         RefreshAccentPreview();
     }
 
