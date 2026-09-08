@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="zh-CN" data-language="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#091014">
+  <meta name="description" content="DeskBox Themes — an open collection of data-only visual themes for DeskBox.">
+  <title>DeskBox Theme Atelier</title>
+  <link rel="stylesheet" href="marketplace.css">
+  <script src="marketplace.js" defer></script>
+</head>
+<body>
+  <div class="ambient ambient-one" aria-hidden="true"></div>
+  <div class="ambient ambient-two" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="DeskBox Theme Atelier">
+      <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+      <span>DeskBox <b>Theme Atelier</b></span>
+    </a>
+    <nav aria-label="Primary navigation">
+      <a href="#collection" data-i18n="navThemes">主题</a>
+      <a href="#install" data-i18n="navInstall">安装</a>
+      <a href="https://github.com/zjzonline/DeskBox-Themes/blob/deskbox-themes/CONTRIBUTING.md" data-i18n="navCreate">创作</a>
+    </nav>
+    <button class="language-switch" type="button" aria-label="Switch language">
+      <span class="language-active">中</span><span>EN</span>
+    </button>
+  </header>
+
+  <main id="top">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="eyebrow"><span></span><span data-i18n="eyebrow">开放主题实验室 · SCHEMA V1</span></p>
+        <h1 id="hero-title" data-i18n-html="heroTitle">让桌面拥有<br><em>自己的天气。</em></h1>
+        <p class="hero-intro" data-i18n="heroIntro">不改动你的文件，只改变光、材质与开合节奏。每个主题都是可阅读、可分享、可移除的数据文件夹。</p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="#collection"><span data-i18n="explore">浏览首发主题</span><b aria-hidden="true">↘</b></a>
+          <a class="button button-quiet" href="https://github.com/zjzonline/DeskBox-Themes" data-i18n="github">在 GitHub 查看</a>
+        </div>
+        <dl class="hero-facts" aria-label="Project facts">
+          <div><dt>02</dt><dd data-i18n="factThemes">首发主题</dd></div>
+          <div><dt>0</dt><dd data-i18n="factCode">主题内可执行代码</dd></div>
+          <div><dt>PR</dt><dd data-i18n="factSubmit">开放投稿方式</dd></div>
+        </dl>
+      </div>
+
+      <div class="hero-stage" aria-label="Theme material preview">
+        <div class="orbit orbit-one" aria-hidden="true"></div>
+        <div class="orbit orbit-two" aria-hidden="true"></div>
+        <article class="material-window smoke-specimen">
+          <div class="window-shine" aria-hidden="true"></div>
+          <div class="mock-search"><span class="search-glyph">⌕</span><span data-i18n="mockSearch">搜索文件、应用与灵感…</span><kbd>Alt + D</kbd></div>
+          <div class="mock-icons" aria-hidden="true">
+            <span class="icon cyan">Ps</span><span class="icon violet">⌁</span><span class="icon blue">D</span><span class="icon mint">✦</span>
+          </div>
+          <div class="mock-footer"><span data-i18n="mockFooter">SMOKE GLASS · 烟熏玻璃</span><span class="signal"><i></i><i></i><i></i></span></div>
+        </article>
+        <article class="mist-card" aria-hidden="true">
+          <p>ALPINE / 02</p><strong>雾凇</strong><span>porcelain · glacier · quiet</span>
+          <div class="mist-meter"><i></i><i></i><i></i></div>
+        </article>
+        <p class="stage-note" data-i18n-html="stageNote">真实 Acrylic 取样<br>＋应用内高光与边缘深度</p>
+      </div>
+    </section>
+
+    <section class="collection" id="collection" aria-labelledby="collection-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow"><span></span><span>CURATED / 001</span></p>
+          <h2 id="collection-title" data-i18n="collectionTitle">首发收藏</h2>
+        </div>
+        <p data-i18n="collectionIntro">两个方向，两种桌面气候。主题包只描述颜色、圆角、材质和动效参数，渲染始终由 DeskBox 掌控。</p>
+      </div>
+
+      <div class="filters" role="group" aria-label="Theme filters">
+        <button class="filter is-active" type="button" data-filter="all" data-i18n="filterAll">全部 02</button>
+        <button class="filter" type="button" data-filter="dark" data-i18n="filterDark">深色 01</button>
+        <button class="filter" type="button" data-filter="light" data-i18n="filterLight">浅色 01</button>
+      </div>
+
+      <div class="theme-grid">
+        <article class="theme-card smoke" data-tone="dark">
+          <div class="theme-visual">
+            <div class="smoke-bloom" aria-hidden="true"></div>
+            <div class="theme-widget">
+              <div class="widget-top"><span>DESKBOX</span><span>•••</span></div>
+              <div class="widget-search"><span>⌕</span><span>Search projects…</span></div>
+              <div class="widget-row"><span class="mini-icon">◇</span><span>Design system</span><b>12</b></div>
+              <div class="widget-row"><span class="mini-icon">○</span><span>Product studies</span><b>07</b></div>
+            </div>
+            <span class="material-chip">ACRYLIC / DARK</span>
+          </div>
+          <div class="theme-copy">
+            <div class="theme-index">01 — CYAN / VIOLET</div>
+            <h3><span data-i18n="smokeName">烟熏玻璃</span> <small data-i18n="smokeAlias">Smoke Glass</small></h3>
+            <p data-i18n="smokeDescription">深色半透明表面，青色与紫色玻璃边缘，适合高饱和壁纸和夜间桌面。</p>
+            <ul><li data-i18n="smokeTag1">深层 Acrylic</li><li data-i18n="smokeTag2">彩色折射边缘</li><li data-i18n="smokeTag3">380ms 柔和开启</li></ul>
+            <div class="theme-actions">
+              <a href="https://github.com/zjzonline/DeskBox-Themes/tree/deskbox-themes/themes/smoke-glass" data-i18n="viewFiles">查看主题文件</a>
+              <button class="copy-path" type="button" data-copy="%LOCALAPPDATA%\DeskBox\Themes\" data-i18n="copyPath">复制安装路径</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="theme-card mist" data-tone="light">
+          <div class="theme-visual">
+            <div class="mist-sun" aria-hidden="true"></div>
+            <div class="theme-widget">
+              <div class="widget-top"><span>ALPINE NOTES</span><span>•••</span></div>
+              <div class="mist-stat"><strong>08:40</strong><span>thin light / clear</span></div>
+              <div class="mist-rings"><i>4</i><i>7</i><i>74</i></div>
+            </div>
+            <span class="material-chip">ACRYLIC BASE / LIGHT</span>
+          </div>
+          <div class="theme-copy">
+            <div class="theme-index">02 — PORCELAIN / GLACIER</div>
+            <h3><span data-i18n="mistName">雾凇</span> <small data-i18n="mistAlias">Alpine Mist</small></h3>
+            <p data-i18n="mistDescription">瓷白卡片、冰川蓝层次与漫射冬日光，适合克制、安静的工作桌面。</p>
+            <ul><li data-i18n="mistTag1">柔和瓷白表面</li><li data-i18n="mistTag2">冰川蓝深层卡片</li><li data-i18n="mistTag3">340ms 轻盈开启</li></ul>
+            <div class="theme-actions">
+              <a href="https://github.com/zjzonline/DeskBox-Themes/tree/deskbox-themes/themes/alpine-mist" data-i18n="viewFiles">查看主题文件</a>
+              <button class="copy-path" type="button" data-copy="%LOCALAPPDATA%\DeskBox\Themes\" data-i18n="copyPath">复制安装路径</button>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="install" id="install" aria-labelledby="install-title">
+      <div class="install-title-wrap">
+        <p class="eyebrow"><span></span><span>INSTALL / CONTRIBUTE</span></p>
+        <h2 id="install-title" data-i18n-html="installTitle">三步换一种<br><em>桌面空气。</em></h2>
+      </div>
+      <ol class="install-steps">
+        <li><span>01</span><div><h3 data-i18n="step1Title">下载收藏</h3><p data-i18n="step1Body">下载 deskbox-themes 分支 ZIP，解压后选中一个主题文件夹。</p></div></li>
+        <li><span>02</span><div><h3 data-i18n="step2Title">放入主题目录</h3><p data-i18n="step2Body">在“设置 › 外观”点击“打开主题文件夹”，复制完整主题文件夹。</p></div></li>
+        <li><span>03</span><div><h3 data-i18n="step3Title">扫描并切换</h3><p data-i18n="step3Body">点击“重新扫描主题”，从同一页的预览列表中选择并立即切换。</p></div></li>
+      </ol>
+      <div class="install-actions">
+        <a class="button button-primary" href="https://github.com/zjzonline/DeskBox-Themes/archive/refs/heads/deskbox-themes.zip" data-i18n="download">下载主题收藏</a>
+        <a class="button button-quiet" href="https://github.com/zjzonline/DeskBox-Themes/blob/deskbox-themes/CONTRIBUTING.md" data-i18n="submit">提交你的主题</a>
+      </div>
+      <p class="compatibility" data-i18n="compatibility">目前主题需要支持 schema v1 的 DeskBox Themes 开发分支。官方 DeskBox 尚不能直接安装这些主题。</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>DESKBOX THEME ATELIER <span>·</span> OPEN ON GITHUB</p>
+    <p data-i18n="footer">由社区维护，与 DeskBox 上游项目保持清晰署名与边界。</p>
+  </footer>
+
+  <div class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

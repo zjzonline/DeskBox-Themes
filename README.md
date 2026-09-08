@@ -31,7 +31,9 @@ The planned theme format uses data and assets rather than executable extensions.
 
 We welcome theme concepts, original assets, documentation, and compatibility feedback. Start with the [contribution guide](CONTRIBUTING.md), then submit a pull request **to this repository**. Community theme review is separate from upstream DeskBox's contribution policy.
 
-The initial collection will be curated through GitHub pull requests. A browsable marketplace and in-app installation are later milestones.
+The initial collection is curated through GitHub pull requests. A static bilingual
+[theme marketplace](docs/index.html) now presents reviewed themes; in-app online
+installation remains a later milestone.
 
 ## Roadmap
 
@@ -41,7 +43,7 @@ The initial collection will be curated through GitHub pull requests. A browsable
 - [x] Add folder discovery, preview metadata, theme switching state, and graceful fallback.
 - [ ] Connect every supported surface and motion token to the shared renderer.
 - [ ] Publish tested theme packs with compatibility information.
-- [ ] Open a browsable community catalog.
+- [x] Open a browsable bilingual community catalog.
 
 See the [theme architecture proposal](docs/themes/ARCHITECTURE.md). The development branch is `deskbox-themes`.
 
