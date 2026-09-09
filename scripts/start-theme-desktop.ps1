@@ -11,6 +11,19 @@ if (-not (Test-Path -LiteralPath $executable)) {
     throw "DeskBox Debug build was not found: $executable"
 }
 
+$runtimeDirectory = Split-Path $executable
+$requiredRuntimeFiles = @(
+    (Join-Path $runtimeDirectory 'deskbox_native.dll'),
+    (Join-Path $runtimeDirectory 'DeskBox.ThumbnailProxy.exe')
+)
+$missingRuntimeFiles = @(
+    $requiredRuntimeFiles | Where-Object { -not (Test-Path -LiteralPath $_) }
+)
+if ($missingRuntimeFiles.Count -gt 0) {
+    $missingNames = ($missingRuntimeFiles | ForEach-Object { Split-Path $_ -Leaf }) -join ', '
+    throw "DeskBox Debug build is incomplete; missing native files: $missingNames. Run scripts\build-theme-desktop.ps1."
+}
+
 if ([string]::IsNullOrWhiteSpace($DataRoot)) {
     $DataRoot = Join-Path $repository '.local-preview\theme-desktop'
 }
